@@ -155,7 +155,7 @@ importers:
         specifier: ^7.3.1
         version: 7.3.1(@types/node@24.10.15)(lightningcss@1.31.1)(terser@5.46.0)(yaml@2.8.2)
 
-  packages/entities:
+  packages/domain:
     dependencies:
       drizzle-orm:
         specifier: ^0.45.1
