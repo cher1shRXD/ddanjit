@@ -5,7 +5,7 @@ import {
   mysqlTable,
   datetime,
 } from "drizzle-orm/mysql-core";
-import { userBenefitsEnum, userEmojiEnum, userRoleEnum } from "./enums";
+import { oauthProviderEnum, userBenefitsEnum, userEmojiEnum, userRoleEnum } from "./enums";
 
 export const userTable = mysqlTable("user", {
   id: int("id").primaryKey().autoincrement(),
@@ -20,4 +20,6 @@ export const userTable = mysqlTable("user", {
   role: mysqlEnum("role", userRoleEnum).notNull().default("user"),
   acquisitionSource: varchar("acquisition_source", { length: 255 }),
   joinedAt: datetime("joined_at").notNull().default(new Date()),
+  provider: mysqlEnum("provider", oauthProviderEnum).notNull().default("google"),
+  oauthId: varchar("oauth_id", { length: 255 }).notNull().unique(),
 });

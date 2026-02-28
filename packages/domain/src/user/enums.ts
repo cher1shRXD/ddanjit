@@ -6,3 +6,6 @@ export type UserBenefit = typeof userBenefitsEnum[number];
 
 export const userEmojiEnum = ["smile", "sunglasses"] as const;
 export type UserEmoji = typeof userEmojiEnum[number];
+
+export const oauthProviderEnum = ["google", "apple"] as const;
+export type OauthProvider = typeof oauthProviderEnum[number];

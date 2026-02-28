@@ -18,7 +18,6 @@ export const googleService = {
     return {
       oauthId: payload.sub,
       email: payload.email!,
-      name: payload.name ?? null,
     };
   },
 };

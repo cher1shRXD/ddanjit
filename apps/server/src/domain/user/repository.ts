@@ -1,6 +1,6 @@
-import { SaveUserInfoReq, userTable } from "@ddanjit/domain";
+import { OauthProvider, SaveUserInfoReq, userTable } from "@ddanjit/domain";
 import { db } from "../../global/db/mysql";
-import { eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 
 export const userRepository = {
   async findById(id: number) {
@@ -19,8 +19,22 @@ export const userRepository = {
       .then((res) => res[0] ?? null);
   },
 
-  async createOauthUser(email: string) {
-    await db.insert(userTable).values({ email });
+  async findByOauthId(provider: OauthProvider, oauthId: string) {
+    return await db
+      .select()
+      .from(userTable)
+      .where(
+        and(eq(userTable.provider, provider), eq(userTable.oauthId, oauthId)),
+      )
+      .then((res) => res[0] ?? null);
+  },
+
+  async createOauthUser(
+    email: string,
+    provider: OauthProvider,
+    oauthId: string,
+  ) {
+    await db.insert(userTable).values({ email, provider, oauthId });
     return await db
       .select()
       .from(userTable)
