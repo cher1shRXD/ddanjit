@@ -5,7 +5,7 @@ import { requireAuth } from "../../global/jwt/hook";
 import { SaveUserInfoReqSchema } from "@ddanjit/domain";
 import { send } from "../../global/utils/send";
 
-export async function userController(fastify: FastifyInstance) {
+export const userController = async (fastify: FastifyInstance) => {
   const app = fastify.withTypeProvider<ZodTypeProvider>();
 
   app.get("/me", { onRequest: [requireAuth] }, async (req, reply) => {

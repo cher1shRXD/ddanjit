@@ -26,4 +26,11 @@ export const JwtProvider = {
 
     return { accessToken, refreshToken };
   },
+
+  async deleteTokens(email: string) {
+    if (!this.instance) throw new Error("JWT Provider is not initialized");
+
+    const { redis } = this.instance;
+    await redis.del(`refreshToken:${email}`);
+  }
 };
