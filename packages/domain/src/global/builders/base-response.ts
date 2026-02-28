@@ -1,6 +1,7 @@
 import { BaseResponse as Return } from "../types/base-response";
 
-export const BaseResponse = <T>(message: string, data?: T) => ({
+export const BaseResponseBuilder = <T>(status: number, message?: string, data?: T) => ({
+  status,
   message,
   data,
 }) as Return<T>;

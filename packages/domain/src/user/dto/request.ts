@@ -3,7 +3,7 @@ import { userTable } from "../schema";
 import { UserError } from "../error";
 import z from "zod";
 
-export const CreateUserInfoReqSchema = createInsertSchema(userTable, {
+export const SaveUserInfoReqSchema = createInsertSchema(userTable, {
   name: (value) =>
     value.nonempty(UserError.EMPTY_NAME).max(10, UserError.TOO_LONG_NAME),
   birthYear: (value) =>
@@ -12,9 +12,13 @@ export const CreateUserInfoReqSchema = createInsertSchema(userTable, {
       .max(new Date().getFullYear() - 1, UserError.NEGATIVE_AGE)
       .default(0),
 }).omit({
-  name: true,
-  birthYear: true,
-  job: true,
-  acquisitionSource: true,
+  id: true,
+  email: true,
+  benefit: true,
+  coin: true,
+  emoji: true,
+  joinedAt: true,
+  role: true,
+  level: true,
 });
-export type CreateUserInfoReq = z.infer<typeof CreateUserInfoReqSchema>;
+export type SaveUserInfoReq = z.infer<typeof SaveUserInfoReqSchema>;
