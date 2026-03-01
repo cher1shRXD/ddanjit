@@ -5,12 +5,13 @@ import {
   mysqlTable,
   datetime,
 } from "drizzle-orm/mysql-core";
-import { oauthProviderEnum, userBenefitsEnum, userEmojiEnum, userRoleEnum } from "./enums";
+import { genderEnum, oauthProviderEnum, userBenefitsEnum, userEmojiEnum, userRoleEnum } from "./enums";
 
 export const userTable = mysqlTable("user", {
   id: int("id").primaryKey().autoincrement(),
   name: varchar("name", { length: 10 }),
   birthYear: int("birth_year").notNull().default(0),
+  gender: mysqlEnum("gender", genderEnum),
   email: varchar("email", { length: 255 }).notNull().unique(),
   job: varchar("job", { length: 50 }),
   emoji: mysqlEnum("emoji", userEmojiEnum).notNull().default("smile"),

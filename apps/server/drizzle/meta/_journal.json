@@ -15,6 +15,13 @@
       "when": 1772285278657,
       "tag": "0001_noisy_justice",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1772384288921,
+      "tag": "0002_quick_blizzard",
+      "breakpoints": true
     }
   ]
 }

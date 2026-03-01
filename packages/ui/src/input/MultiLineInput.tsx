@@ -20,8 +20,8 @@ export const MultiLineInput = ({
   lines,
 }: Props) => {
   return (
-    <div className="flex flex-col gap-0.5 items-start w-full">
-      {label && <span className="text-sm font-semibold">{label}</span>}
+    <div className="flex flex-col gap-0.5 items-start w-full relative">
+      <span className="text-sm font-semibold">{label}</span>
       <textarea
         value={value}
         onChange={(e) => onChange(e.target.value)}
@@ -29,9 +29,12 @@ export const MultiLineInput = ({
         maxLength={max}
         minLength={min}
         rows={lines}
-        className="bg-surface/60 px-4 py-2 rounded-lg outline-none text-base w-full resize-none"
+        className="w-full px-4 py-2 text-base rounded-lg outline-none resize-none bg-surface/60"
       />
-      {error && <span className="text-static-orange text-xs">{error}</span>}
+      <span
+        className={`pl-1 text-xs text-static-orange absolute bottom-0 translate-y-full`}>
+        {error}
+      </span>
     </div>
   );
 };

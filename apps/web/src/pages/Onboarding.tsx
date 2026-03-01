@@ -8,19 +8,29 @@ import Fading from "../shared/ui/Fading";
 import Sliding from "../shared/ui/Sliding";
 import Screen from "../shared/providers/safe-area-provider/Screen";
 import Footer from "../widgets/Footer";
+import { useCheckInfo } from "../features/check-info/hooks/useCheckInfo";
 
 const Onboarding = () => {
   const [closeRequest, setCloseRequest] = useState(false);
   const tab = useTab();
+  const { isLoggedIn, isRegistered } = useCheckInfo();
 
   return (
     <Fading
       className="w-full h-full"
       closeRequest={closeRequest}
       closeDelay={1}
-      onAnimationComplete={() => tab.move("login")}>
+      onAnimationComplete={() =>
+        tab.move(
+          isLoggedIn
+            ? isRegistered
+              ? "ddanjit-start"
+              : "register-info"
+            : "login",
+        )
+      }>
       <Screen className="bg-primary">
-        <div className="w-full h-full relative flex flex-col items-end gap-4">
+        <div className="relative flex flex-col items-end w-full h-full gap-4">
           <Sliding
             direction="top-bottom"
             startPosition="400%"
@@ -51,7 +61,7 @@ const Onboarding = () => {
             closeRequest={closeRequest}
             closeDelay={0}
             animationStyle="bouncy">
-            <p className="font-bold text-3xl text-end">
+            <p className="text-3xl font-bold text-end">
               넘쳐나는 도파민들?
               <br />
               이건 격이 다른
@@ -76,7 +86,7 @@ const Onboarding = () => {
             closeDelay={0.5}
             animationStyle="bouncy"
             className="w-full">
-            <div className="w-full flex flex-col gap-5">
+            <div className="flex flex-col w-full gap-5">
               <Button
                 size="fit"
                 background="surface"

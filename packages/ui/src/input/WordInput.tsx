@@ -21,7 +21,7 @@ export const WordInput = ({
   error,
   placeholder,
   max,
-  min
+  min,
 }: Props) => {
   const spanRef = useRef<HTMLSpanElement>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
@@ -35,10 +35,10 @@ export const WordInput = ({
   }, [value, placeholder]);
 
   return (
-    <div className="flex flex-col gap-0.5 items-start w-full">
-      {label && <span className="text-sm font-semibold">{label}</span>}
+    <div className="flex flex-col gap-0.5 items-start w-full relative">
+      <span className="text-sm font-semibold">{label}</span>
       <div ref={wrapperRef} className="flex items-center w-full">
-        {prefix && <span className="whitespace-nowrap mr-2">{prefix}</span>}
+        {prefix && <span className="mr-2 whitespace-nowrap">{prefix}</span>}
         <div className="flex items-center min-w-0">
           <input
             type="text"
@@ -48,19 +48,22 @@ export const WordInput = ({
             maxLength={max}
             minLength={min}
             style={{ width: inputWidth }}
-            className="bg-surface/60 px-4 py-2 rounded-lg outline-none text-base max-w-full"
+            className="max-w-full px-4 py-2 text-base rounded-lg outline-none bg-surface/60"
           />
           {suffix && (
-            <span className="whitespace-nowrap ml-2 text-base">{suffix}</span>
+            <span className="ml-2 text-base whitespace-nowrap">{suffix}</span>
           )}
         </div>
         <span
           ref={spanRef}
-          className="opacity-0 pointer-events-none fixed whitespace-pre px-4 py-2 text-base">
+          className="fixed px-4 py-2 text-base whitespace-pre opacity-0 pointer-events-none">
           {value || placeholder || ""}
         </span>
       </div>
-      {error && <span className="text-static-orange text-xs">{error}</span>}
+      <span
+        className={`pl-1 text-xs text-static-orange absolute bottom-0 translate-y-full`}>
+        {error}
+      </span>
     </div>
   );
 };

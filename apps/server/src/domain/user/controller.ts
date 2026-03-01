@@ -2,7 +2,7 @@ import { FastifyInstance } from "fastify";
 import { ZodTypeProvider } from "fastify-type-provider-zod";
 import { userService } from "./service";
 import { requireAuth } from "../../global/jwt/hook";
-import { SaveUserInfoReqSchema } from "@ddanjit/domain";
+import { SaveAcquisitionSourceReqSchema, SaveUserInfoReqSchema } from "@ddanjit/domain";
 import { send } from "../../global/utils/send";
 
 export const userController = async (fastify: FastifyInstance) => {
@@ -25,6 +25,16 @@ export const userController = async (fastify: FastifyInstance) => {
       const { email } = req.user;
       const userInfo = req.body;
       return send(() => userService.saveUserInfo(email, userInfo), reply);
+    },
+  );
+
+  app.post(
+    "/acquisition-source",
+    { onRequest: [requireAuth], schema: { body: SaveAcquisitionSourceReqSchema } },
+    async (req, reply) => {
+      const { email } = req.user;
+      const { acquisitionSource } = req.body;
+      return send(() => userService.saveAcquisitionSource(email, acquisitionSource), reply);
     },
   );
 

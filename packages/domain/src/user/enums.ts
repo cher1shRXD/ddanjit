@@ -9,3 +9,6 @@ export type UserEmoji = typeof userEmojiEnum[number];
 
 export const oauthProviderEnum = ["google", "apple"] as const;
 export type OauthProvider = typeof oauthProviderEnum[number];
+
+export const genderEnum = ["남자", "여자"] as const;
+export type Gender = typeof genderEnum[number];

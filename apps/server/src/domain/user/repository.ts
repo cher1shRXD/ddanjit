@@ -51,6 +51,18 @@ export const userRepository = {
       .then((res) => res[0] ?? null);
   },
 
+  async saveAcquisitionSource(email: string, acquisitionSource: string | null) {
+    await db
+      .update(userTable)
+      .set({ acquisitionSource })
+      .where(eq(userTable.email, email));
+    return await db
+      .select()
+      .from(userTable)
+      .where(eq(userTable.email, email))
+      .then((res) => res[0] ?? null);
+  },
+
   async delete(email: string) {
     return await db.delete(userTable).where(eq(userTable.email, email));
   },

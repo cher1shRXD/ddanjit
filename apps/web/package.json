@@ -16,6 +16,7 @@
     "@ddanjit/ui": "workspace:*",
     "@iconify/react": "^6.0.2",
     "@tailwindcss/vite": "^4.2.1",
+    "@tanstack/react-query": "^5.90.21",
     "axios": "^1.13.6",
     "framer-motion": "^12.34.3",
     "react": "^19.2.4",

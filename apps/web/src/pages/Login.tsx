@@ -7,10 +7,12 @@ import AppleLogin from "../shared/assets/images/apple-login.png";
 import Footer from "../widgets/Footer";
 import { useTab } from "../shared/providers/tab-provider/useTab";
 import { useLogin } from "../features/login/hooks/useLogin";
+import { useCheckInfo } from "../features/check-info/hooks/useCheckInfo";
 
 const Login = () => {
   const [closeRequest, setCloseRequest] = useState(false);
   const { login } = useLogin(setCloseRequest);
+  const { isRegistered } = useCheckInfo();
   const tab = useTab();
 
   return (
@@ -59,7 +61,7 @@ const Login = () => {
           closeRequest={closeRequest}
           closeDelay={0.2}
           animationStyle="bouncy"
-          onAnimationComplete={() => tab.move("register-info")}>
+          onAnimationComplete={() => tab.move(isRegistered ? "ddanjit-start" : "register-info")}>
           <button
             className="transition-transform active:scale-95 drop-shadow-md"
             onClick={() => login("google")}>

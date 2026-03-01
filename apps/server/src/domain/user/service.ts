@@ -52,6 +52,22 @@ export const userService = {
     }
   },
 
+  async saveAcquisitionSource(email: string, acquisitionSource: string | null) {
+    try {
+      const isExist = await userRepository.findByEmail(email);
+      if (!isExist) {
+        throw new Error(UserError.NOTFOUND);
+      }
+      const updatedUser = await userRepository.saveAcquisitionSource(
+        email,
+        acquisitionSource,
+      );
+      return BaseResponseBuilder(201, "가입 경로가 저장되었어요.", updatedUser);
+    } catch (e) {
+      throw ErrorResponseBuilder(e);
+    }
+  },
+
   async deleteUser(email: string) {
     try {
       const isExist = await userRepository.findByEmail(email);

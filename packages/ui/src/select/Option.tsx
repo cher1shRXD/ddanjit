@@ -17,9 +17,9 @@ export const Option = ({ label, selected, onSelect }: Props) => {
     <div
       className={`w-full py-2 pr-4 transition-colors ${selected ? "bg-secondary text-text/60" : ""} ${hasIcon ? "pl-2" : "px-4"}`}
       onClick={() => onSelect(label)}>
-      <div className="active:scale-98 transition-all flex items-center">
+      <div className="flex items-center">
         {icon && <span className="mr-1">{icon}</span>}
-        <span className="truncate font-semibold text-sm">{text}</span>
+        <span className="text-sm font-semibold truncate">{text}</span>
         {selected && (
           <Icon icon="ic:round-check" className="ml-auto text-white" />
         )}
