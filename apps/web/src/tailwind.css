@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@source "../../../packages//ui/src/**/*.{ts,tsx}";
 
 :root {
   --var-color-primary: #A8D5C2;
