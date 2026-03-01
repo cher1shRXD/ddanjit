@@ -90,12 +90,16 @@ export const Timer = ({ totalSeconds, onEnd, autoStart = false }: Props) => {
 
         <div className="z-10 flex items-center justify-center">
           {isOver ? (
-            <span className="text-static-orange text-3xl font-bold shake-horizontal">
+            <span className="text-static-orange text-3xl font-semibold shake-horizontal">
               Time Over!
             </span>
-          ) : (
+          ) : running ? (
             <span className="text-primary text-5xl font-semibold tabular-nums">
               {minutes}:{seconds}
+            </span>
+          ) : (
+            <span className="text-primary text-xl font-semibold">
+              눌러서 시작하기
             </span>
           )}
         </div>

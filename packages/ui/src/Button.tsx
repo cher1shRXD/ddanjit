@@ -1,5 +1,20 @@
-import React from 'react';
+import { ComponentProps } from "react";
+import { color } from "./color";
 
-export const Button = () => {
-  return <button style={{ padding: '8px 16px', borderRadius: '4px', border: '1px solid #ccc' }}>Button Component</button>;
+interface Props extends ComponentProps<"button"> {
+  background?: keyof typeof color;
+}
+
+export const Button = ({ background, children, className, ...props }: Props) => {
+  const backgroundColor = background ? color[background] : color.transparent;
+  return (
+    <button
+      style={{
+        backgroundColor,
+      }}
+      className={`w-full ${background === "transparent" ? "py-0" : "py-3"} rounded active:scale-98 transition-all ${className}`}
+      {...props}>
+      {children}
+    </button>
+  );
 };
