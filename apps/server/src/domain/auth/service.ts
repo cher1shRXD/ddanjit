@@ -3,23 +3,25 @@ import { JwtProvider } from "../../global/jwt/provider";
 import { userRepository } from "../user/repository";
 import { appleService } from "./external/apple";
 import { googleService } from "./external/google";
+import { FastifyInstance } from "fastify";
 
 export const authService = {
-  async loginWithGoogle(idToken: string) {
+  async loginWithGoogle(idToken: string, fastify: FastifyInstance) {
+    console.log("authService loginWithGoogle", { idToken });
     const { oauthId, email } = await googleService.verify(idToken);
     return BaseResponseBuilder(
       200,
       "구글 계정으로 로그인 되었습니다.",
-      await this.loginOrRegister("google", oauthId, email),
+      await this.loginOrRegister("google", oauthId, email, fastify),
     );
   },
 
-  async loginWithApple(idToken: string) {
+  async loginWithApple(idToken: string, fastify: FastifyInstance) {
     const { oauthId, email } = await appleService.verify(idToken);
     return BaseResponseBuilder(
       200,
       "애플 계정으로 로그인 되었습니다.",
-      await this.loginOrRegister("apple", oauthId, email),
+      await this.loginOrRegister("apple", oauthId, email, fastify),
     );
   },
 
@@ -27,22 +29,27 @@ export const authService = {
     provider: OauthProvider,
     oauthId: string,
     email: string,
+    fastify: FastifyInstance,
   ) {
+    const jwtProvider = JwtProvider(fastify);
     let user = await userRepository.findByOauthId(provider, oauthId);
 
     if (!user) {
       user = await userRepository.createOauthUser(email, provider, oauthId);
     }
 
-    const { accessToken, refreshToken } = await JwtProvider.saveTokens(
+    const { accessToken, refreshToken } = await jwtProvider.saveTokens(
       user.email,
     );
+
+    console.log("accessToken", accessToken, refreshToken);
 
     return { accessToken, refreshToken };
   },
 
-  async logout(email: string) {
-    await JwtProvider.deleteTokens(email);
+  async logout(email: string, fastify: FastifyInstance) {
+    const jwtProvider = JwtProvider(fastify);
+    await jwtProvider.deleteTokens(email);
     return BaseResponseBuilder(200, "로그아웃 되었습니다. 다시 만나요!");
   },
 };

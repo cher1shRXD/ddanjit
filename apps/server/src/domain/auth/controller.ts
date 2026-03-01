@@ -8,16 +8,16 @@ export const authController = async (fastify: FastifyInstance) => {
 
   app.post("/google", async (req, reply) => {
     const { idToken } = req.body as { idToken: string };
-    return send(() => authService.loginWithGoogle(idToken), reply);
+    return send(() => authService.loginWithGoogle(idToken, app), reply);
   });
 
   app.post("/apple", async (req, reply) => {
     const { idToken } = req.body as { idToken: string };
-    return send(() => authService.loginWithApple(idToken), reply);
+    return send(() => authService.loginWithApple(idToken, app), reply);
   });
 
   app.post("/logout", async (req, reply) => {
-    const { email } = req.body as { email: string };
-    return send(() => authService.logout(email), reply);
+    const user = req.user;
+    return send(() => authService.logout(user.email, app), reply);
   });
 };

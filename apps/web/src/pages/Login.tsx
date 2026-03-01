@@ -5,8 +5,8 @@ import { Spacer } from "@ddanjit/ui";
 import GoogleLogin from "../shared/assets/images/google-login.png";
 import AppleLogin from "../shared/assets/images/apple-login.png";
 import Footer from "../widgets/Footer";
-import { useLogin } from "../shared/libs/bridge/modules/login/useLogin";
 import { useTab } from "../shared/providers/tab-provider/useTab";
+import { useLogin } from "../features/login/hooks/useLogin";
 
 const Login = () => {
   const [closeRequest, setCloseRequest] = useState(false);

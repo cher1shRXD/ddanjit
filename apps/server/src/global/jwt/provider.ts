@@ -1,36 +1,35 @@
 import { FastifyInstance } from "fastify";
+import pkg from "jsonwebtoken";
 import { TokenPayload } from "./types";
+const { sign, verify } = pkg;
 
-export const JwtProvider = {
-  instance: null as FastifyInstance | null,
-
-  JwtProvider(fastify: FastifyInstance) {
-    this.instance = fastify;
-  },
-
+export const JwtProvider = (fastify: FastifyInstance) => (  {
   async saveTokens(email: string) {
-    if (!this.instance) throw new Error("JWT Provider is not initialized");
+    const accessToken = sign({ email }, process.env.ACCESS_TOKEN_SECRET!, {
+      expiresIn: "2h",
+    });
+    const refreshToken = sign({ email }, process.env.REFRESH_TOKEN_SECRET!, {
+      expiresIn: "30d",
+    });
 
-    const accessToken = this.instance.signAccessToken(
-      { email } satisfies TokenPayload,
-      { expiresIn: "2h" },
+    await fastify.redis.setex(
+      `refreshToken:${email}`,
+      30 * 24 * 60 * 60,
+      refreshToken,
     );
-    const refreshToken = this.instance.signRefreshToken(
-      { email } satisfies TokenPayload,
-      { expiresIn: "30d" },
-    );
-
-    const { redis } = this.instance;
-
-    await redis.setex(`refreshToken:${email}`, 30 * 24 * 60 * 60, refreshToken);
 
     return { accessToken, refreshToken };
   },
 
   async deleteTokens(email: string) {
-    if (!this.instance) throw new Error("JWT Provider is not initialized");
+    await fastify.redis.del(`refreshToken:${email}`);
+  },
 
-    const { redis } = this.instance;
-    await redis.del(`refreshToken:${email}`);
-  }
-};
+  verifyAccessToken(token: string) {
+    return verify(token, process.env.ACCESS_TOKEN_SECRET!) as TokenPayload;
+  },
+
+  verifyRefreshToken(token: string) {
+    return verify(token, process.env.REFRESH_TOKEN_SECRET!) as TokenPayload;
+  },
+});

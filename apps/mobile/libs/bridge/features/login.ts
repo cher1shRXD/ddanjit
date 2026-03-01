@@ -11,7 +11,6 @@ export const useLogin = () => {
     if (response.identityToken) {
       return {
         idToken: response.identityToken,
-        email: response.email || undefined,
       };
     }
     return null;
@@ -20,7 +19,7 @@ export const useLogin = () => {
   const googleLogin = async () => {
     await GoogleSignin.hasPlayServices();
     const { data } = await GoogleSignin.signIn();
-    if (data) return { idToken: data?.idToken, email: data?.user.email };
+    if (data) return { idToken: data?.idToken };
     return null;
   };
 

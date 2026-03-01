@@ -1,6 +1,7 @@
 import fastifyRedis from "@fastify/redis";
 import Fastify from "fastify";
 import {
+  hasZodFastifySchemaValidationErrors,
   jsonSchemaTransform,
   serializerCompiler,
   validatorCompiler,
@@ -10,11 +11,21 @@ import { userController } from "../domain/user/controller";
 import fastifySwagger from "@fastify/swagger";
 import fastifySwaggerUi from "@fastify/swagger-ui";
 import { authController } from "../domain/auth/controller";
+import fastifyCors from "@fastify/cors";
+import jwt from "@fastify/jwt";
+import "dotenv/config";
+import "./jwt/types";
 
 export const fastify = Fastify({ logger: true });
 
 fastify.setValidatorCompiler(validatorCompiler);
 fastify.setSerializerCompiler(serializerCompiler);
+
+fastify.register(fastifyCors, {
+  origin: ["http://172.30.1.73:5173"],
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "HEAD", "OPTIONS"],
+  credentials: true,
+});
 
 fastify.register(fastifyRedis, redisConfig);
 
