@@ -16,7 +16,7 @@ export default defineConfig({
     host: true,
     watch: {
       ignored: ['!**/packages/ui/**']
-    }
+    },
   },
   optimizeDeps: {
     force: true,

@@ -8,3 +8,4 @@ export * from './input/SingleLineInput';
 export * from './TextViewer';
 export * from './Timer';
 export * from './input/WordInput';
+export * from './Spacer';

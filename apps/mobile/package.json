@@ -9,6 +9,7 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "@ddanjit/bridge-interface": "workspace:*",
     "@invertase/react-native-apple-authentication": "^2.5.1",
     "@react-native-google-signin/google-signin": "^16.1.1",
     "@react-navigation/native": "^7.1.28",
@@ -20,6 +21,7 @@
     "expo-splash-screen": "~55.0.10",
     "expo-status-bar": "~55.0.4",
     "expo-symbols": "~55.0.4",
+    "expo-system-ui": "^55.0.9",
     "expo-web-browser": "~55.0.9",
     "react": "19.2.0",
     "react-dom": "19.2.0",
