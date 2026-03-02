@@ -65,6 +65,7 @@ const AnalyzeAcquisition = () => {
           options={options}
           selected={selected}
           onChange={setSelected}
+          rounded={16}
         />
         {selected === "기타" && (
           <SingleLineInput
@@ -75,7 +76,6 @@ const AnalyzeAcquisition = () => {
           />
         )}
       </Sliding>
-
       <Spacer />
       <Sliding
         direction="bottom-top"

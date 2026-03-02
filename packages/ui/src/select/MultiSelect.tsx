@@ -4,9 +4,10 @@ interface Props {
   options: string[];
   selected: string[];
   onChange: (selected: string[]) => void;
+  rounded?: number;
 }
 
-export const MultiSelect = ({ options, selected, onChange }: Props) => {
+export const MultiSelect = ({ options, selected, onChange, rounded = 4 }: Props) => {
   const handleSelect = (option: string) => {
     if (selected.includes(option)) {
       onChange(selected.filter((o) => o !== option));
@@ -16,7 +17,7 @@ export const MultiSelect = ({ options, selected, onChange }: Props) => {
   }
 
   return (
-    <div className="w-full flex flex-col items-center rounded overflow-hidden bg-surface/60">
+    <div className="flex flex-col items-center w-full overflow-hidden bg-surface/60" style={{ borderRadius: rounded }}>
       {options.map((option) => (
         <Option
           key={option}

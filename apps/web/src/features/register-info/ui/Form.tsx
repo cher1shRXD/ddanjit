@@ -67,6 +67,7 @@ const Form = ({ closeRequest, requestClose }: Props) => {
         options={genderOptions}
         selected={gender}
         onChange={setGender}
+        rounded={16}
       />
       <div className="flex flex-col items-center w-full gap-3">
         <Segment
