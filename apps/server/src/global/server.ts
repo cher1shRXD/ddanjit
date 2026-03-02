@@ -22,7 +22,7 @@ fastify.setValidatorCompiler(validatorCompiler);
 fastify.setSerializerCompiler(serializerCompiler);
 
 fastify.register(fastifyCors, {
-  origin: ["http://172.30.1.73:5173"],
+  origin: ["http://10.80.162.214:5173"],
   methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "HEAD", "OPTIONS"],
   credentials: true,
 });

@@ -1,4 +1,3 @@
-import { useState } from "react";
 import Screen from "../shared/providers/safe-area-provider/Screen";
 import Sliding from "../shared/ui/Sliding";
 import { Spacer } from "@ddanjit/ui";
@@ -8,6 +7,7 @@ import Footer from "../widgets/Footer";
 import { useTab } from "../shared/providers/tab-provider/useTab";
 import { useLogin } from "../features/login/hooks/useLogin";
 import { useCheckInfo } from "../features/check-info/hooks/useCheckInfo";
+import { useState } from "react";
 
 const Login = () => {
   const [closeRequest, setCloseRequest] = useState(false);

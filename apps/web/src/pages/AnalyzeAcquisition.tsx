@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Spacer } from "../../../../packages/ui/src/Spacer";
 import Screen from "../shared/providers/safe-area-provider/Screen";
 import Sliding from "../shared/ui/Sliding";
@@ -6,6 +5,7 @@ import Footer from "../widgets/Footer";
 import { Button, SingleLineInput, SingleSelect } from "@ddanjit/ui";
 import { useTab } from "../shared/providers/tab-provider/useTab";
 import { useRegisterAcquisition } from "../features/register-acquisition/hooks/useRegisterAcquisition";
+import { useState } from "react";
 
 const AnalyzeAcquisition = () => {
   const tab = useTab();

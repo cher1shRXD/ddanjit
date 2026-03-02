@@ -14,7 +14,7 @@ const DoneRegister = () => {
     }, 5000);
 
     return () => clearTimeout(timer);
-  }, []);
+  }, [setCloseRequest]);
 
   return (
     <Fading

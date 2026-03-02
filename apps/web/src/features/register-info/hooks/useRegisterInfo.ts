@@ -1,18 +1,18 @@
-import { useState } from "react";
 import { useRegisterInfoMutation } from "../mutations";
+import { usePersistedState } from "../../../shared/providers/snapshot-provider/usePersistedState";
 
 export const useRegisterInfo = (requestClose: (state: boolean) => void) => {
-  const [name, setName] = useState("");
-  const [birthYear, setBirthYear] = useState("");
+  const [name, setName] = usePersistedState("", "name");
+  const [birthYear, setBirthYear] = usePersistedState("", "birthYear");
   const hasJobOptions = ["직업 없음", "직업 있음"];
-  const [hasJob, setHasJob] = useState(hasJobOptions[0]);
-  const [job, setJob] = useState("");
+  const [hasJob, setHasJob] = usePersistedState(hasJobOptions[0], "hasJob");
+  const [job, setJob] = usePersistedState("", "job");
   const genderOptions = ["남자", "여자"];
-  const [gender, setGender] = useState<string | null>(null);
-  const [error, setError] = useState({
+  const [gender, setGender] = usePersistedState<string | null>(null, "gender");
+  const [error, setError] = usePersistedState({
     name: "",
     birthYear: "",
-  });
+  }, "error");
   const { mutateAsync } = useRegisterInfoMutation();
 
   const submit = async () => {

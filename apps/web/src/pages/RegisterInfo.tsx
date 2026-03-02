@@ -1,9 +1,9 @@
-import { useState } from "react";
 import { Spacer } from "../../../../packages/ui/src/Spacer";
 import Screen from "../shared/providers/safe-area-provider/Screen";
 import Sliding from "../shared/ui/Sliding";
 import Footer from "../widgets/Footer";
 import Form from "../features/register-info/ui/Form";
+import { useState } from "react";
 
 const RegisterInfo = () => {
   const [closeRequest, setCloseRequest] = useState(false);

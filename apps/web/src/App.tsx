@@ -3,9 +3,12 @@ import DoneRegister from "./pages/DoneRegister";
 import Login from "./pages/Login";
 import Onboarding from "./pages/Onboarding";
 import RegisterInfo from "./pages/RegisterInfo";
+import { storage } from "./shared/libs/storage/storage";
 import { TabProvider } from "./shared/providers/tab-provider";
 
 const App = () => {
+  const currentTab = storage.getItem("current-tab") || "onboarding";
+
   return (
     <div className="w-full h-screen">
       <TabProvider
@@ -19,7 +22,7 @@ const App = () => {
           { key: "analyze-acquisition", component: <AnalyzeAcquisition /> },
           { key: "done-register", component: <DoneRegister /> },
         ]}
-        initialKey="onboarding"
+        initialKey={currentTab}
       />
     </div>
   );

@@ -1,8 +1,8 @@
-import { useState } from "react";
 import { useRegisterAcquisitionMutation } from "../mutations";
+import { usePersistedState } from "../../../shared/providers/snapshot-provider/usePersistedState";
 
 export const useRegisterAcquisition = (requestClose: (state: boolean) => void) => {
-  const [selected, setSelected] = useState<string | null>(null);
+  const [selected, setSelected] = usePersistedState<string | null>(null, "selected");
   const options = [
     "앱스토어 추천",
     "지인 추천",
@@ -10,7 +10,7 @@ export const useRegisterAcquisition = (requestClose: (state: boolean) => void) =
     "커뮤니티",
     "기타",
   ];
-  const [otherSource, setOtherSource] = useState("");
+  const [otherSource, setOtherSource] = usePersistedState("", "otherSource");
   const { mutateAsync } = useRegisterAcquisitionMutation();
 
   const submit = async () => {

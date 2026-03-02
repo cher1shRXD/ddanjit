@@ -6,7 +6,7 @@ import { BridgeUiProvider } from "@/libs/bridge/common/contexts/BridgeUiProvider
 
 const AppContent = () => {
   const { top, bottom } = useSafeAreaInsets();
-  const host = "http://172.30.1.73:5173";
+  const host = "http://10.80.162.214:5173";
   const uri = `${host}?top=${top}&bottom=${bottom}`;
   const handleMessage = useBridge();
   const ref = useRef<WebView>(null);
