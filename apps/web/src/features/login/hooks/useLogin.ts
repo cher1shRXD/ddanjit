@@ -3,11 +3,10 @@ import type { ErrorResponse } from "@ddanjit/domain";
 import { useBridge } from "../../../shared/libs/bridge/hooks/useBridge";
 import type { AxiosError } from "axios";
 import { LoginApi } from "../api";
-import { useQueryClient } from "@tanstack/react-query";
+import { storage } from "../../../shared/libs/storage/storage";
 
 export const useLogin = (requestClose: (state: boolean) => void) => {
   const execute = useBridge();
-  const queryClient = useQueryClient();
 
   const login = async (provider: string) => {
     const response = await execute<{ idToken: string }>(RequestTypes.LOGIN, {
@@ -21,9 +20,8 @@ export const useLogin = (requestClose: (state: boolean) => void) => {
 
       if (data.data) {
         alert(data.message);
-        localStorage.setItem("ACCESS_TOKEN", data.data.accessToken);
-        localStorage.setItem("REFRESH_TOKEN", data.data.refreshToken);
-        queryClient.invalidateQueries({ queryKey: ["users", "info", "check"] });
+        storage.setItem("ACCESS_TOKEN", data.data.accessToken);
+        storage.setItem("REFRESH_TOKEN", data.data.refreshToken);
         requestClose(true);
       }
     } catch (error) {

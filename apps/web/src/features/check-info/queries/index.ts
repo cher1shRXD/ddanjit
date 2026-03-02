@@ -3,7 +3,7 @@ import { CheckInfoApi } from "../api";
 
 export const useCheckInfoRegisteredQuery = (isLoggedIn: boolean) => {
   return useSuspenseQuery({
-    queryKey: ["users", "info", "check"],
+    queryKey: ["users", "info", "check", isLoggedIn],
     queryFn: async () => {
       if (!isLoggedIn) return false;
       const { data } = await CheckInfoApi.checkInfoRegistered();

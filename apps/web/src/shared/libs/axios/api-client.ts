@@ -1,4 +1,5 @@
 import axios, { AxiosError, type InternalAxiosRequestConfig } from "axios";
+import { storage } from "../storage/storage";
 
 interface ApiClientRequestConfig extends InternalAxiosRequestConfig {
   _retry?: boolean;
@@ -26,7 +27,7 @@ const addRefreshSubscriber = (callback: (token: string) => void) => {
 
 apiClient.interceptors.request.use(
   async (config) => {
-    const token = localStorage.getItem("ACCESS_TOKEN");
+    const token = storage.getItem("ACCESS_TOKEN");
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -57,7 +58,7 @@ apiClient.interceptors.response.use(
     }
     if (originalRequest && !originalRequest._retry) {
       originalRequest._retry = true;
-      const refreshToken = localStorage.getItem("REFRESH_TOKEN");
+      const refreshToken = storage.getItem("REFRESH_TOKEN");
 
       if (refreshToken) {
         if (!isRefreshing) {
@@ -74,16 +75,16 @@ apiClient.interceptors.response.use(
             const newAccessToken = response.data.data.accessToken;
             const newRefreshToken = response.data.data.refreshToken;
 
-            localStorage.setItem("ACCESS_TOKEN", newAccessToken);
-            localStorage.setItem("REFRESH_TOKEN", newRefreshToken);
+            storage.setItem("ACCESS_TOKEN", newAccessToken);
+            storage.setItem("REFRESH_TOKEN", newRefreshToken);
 
             onRefreshed(newAccessToken);
 
             originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
             return apiClient(originalRequest);
           } catch (refreshError) {
-            localStorage.removeItem("ACCESS_TOKEN");
-            localStorage.removeItem("REFRESH_TOKEN");
+            storage.removeItem("ACCESS_TOKEN");
+            storage.removeItem("REFRESH_TOKEN");
             return Promise.reject(refreshError);
           } finally {
             isRefreshing = false;

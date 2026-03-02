@@ -1,7 +1,9 @@
+import { useLocalStorage } from "../../../shared/libs/storage/storage";
 import { useCheckInfoRegisteredQuery } from "../queries";
 
 export const useCheckInfo = () => {
-  const isLoggedIn = !!localStorage.getItem("ACCESS_TOKEN");
+  const { value } = useLocalStorage("ACCESS_TOKEN");
+  const isLoggedIn = !!value;
   const { data } = useCheckInfoRegisteredQuery(isLoggedIn);
 
   return {
