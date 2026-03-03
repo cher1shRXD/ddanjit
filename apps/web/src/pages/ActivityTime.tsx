@@ -4,7 +4,6 @@ import Sliding from "../shared/ui/Sliding";
 import { useState } from "react";
 import { useTab } from "../shared/providers/tab-provider/useTab";
 import QuitButton from "../widgets/QuitButton";
-import Progress from "../widgets/Progress";
 import { useTimeStore } from "../features/find-activity/stores/time";
 import { usePersistedState } from "../shared/providers/snapshot-provider/usePersistedState";
 import { timeOptions } from "../features/find-activity/constants/options";
@@ -25,7 +24,6 @@ const ActivityTime = () => {
 
   return (
     <Screen className="flex flex-col w-full gap-5">
-      <Progress from={0} to={50} />
       <Spacer height={60} />
       <Sliding
         direction="left-right"
