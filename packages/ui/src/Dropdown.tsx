@@ -1,26 +1,28 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
 
 interface Props {
   options: string[];
   selected: string;
   onChange: (selected: string) => void;
+  fontSize?: number;
 }
 
-const ITEM_HEIGHT = 34;
-const CONTAINER_HEIGHT = 64;
-const PADDING = (CONTAINER_HEIGHT - ITEM_HEIGHT) / 2;
-
-export const Dropdown = ({ options, selected, onChange }: Props) => {
+export const Dropdown = ({ options, selected, onChange, fontSize = 16 }: Props) => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const isScrollingRef = useRef(false);
   const timerRef = useRef<ReturnType<typeof setTimeout>>(null);
 
+  // Calculate dimensions based on fontSize
+  const itemHeight = useMemo(() => Math.round(fontSize * 2.125), [fontSize]);
+  const containerHeight = useMemo(() => Math.round(itemHeight * 1.88), [itemHeight]);
+  const padding = useMemo(() => (containerHeight - itemHeight) / 2, [containerHeight, itemHeight]);
+
   useEffect(() => {
     const index = options.indexOf(selected);
     if (scrollRef.current && index !== -1) {
-      scrollRef.current.scrollTop = index * ITEM_HEIGHT;
+      scrollRef.current.scrollTop = index * itemHeight;
     }
-  }, [options, selected]);
+  }, [options, selected, itemHeight]);
 
   const handleScroll = () => {
     if (!scrollRef.current) return;
@@ -31,11 +33,11 @@ export const Dropdown = ({ options, selected, onChange }: Props) => {
     isScrollingRef.current = true;
     timerRef.current = setTimeout(() => {
       if (!scrollRef.current) return;
-      const index = Math.round(scrollRef.current.scrollTop / ITEM_HEIGHT);
+      const index = Math.round(scrollRef.current.scrollTop / itemHeight);
       const clamped = Math.max(0, Math.min(index, options.length - 1));
 
       scrollRef.current.scrollTo({
-        top: clamped * ITEM_HEIGHT,
+        top: clamped * itemHeight,
         behavior: "smooth",
       });
 
@@ -47,42 +49,45 @@ export const Dropdown = ({ options, selected, onChange }: Props) => {
 
   const handleClick = (index: number) => {
     if (!scrollRef.current || index < 0 || index >= options.length) return;
-    if (index === options.length - 1) {
-      scrollRef.current.scrollTo({
-        top: 0,
-        behavior: "smooth",
-      });
-    } else {
-      scrollRef.current.scrollTo({
-        top: (index + 1) * ITEM_HEIGHT,
-        behavior: "smooth",
-      });
-    }
+    
+    scrollRef.current.scrollTo({
+      top: index * itemHeight,
+      behavior: "smooth",
+    });
 
     onChange(options[index] || options[0]!);
   };
 
   return (
-    <div className="bg-surface/60 w-min h-16 px-1 rounded-2xl relative flex items-center">
+    <div 
+      style={{ height: containerHeight }}
+      className="bg-surface/60 w-min px-1 rounded-2xl relative flex items-center">
       <div className="absolute top-0 left-0 w-full h-full -z-10 flex items-center px-1 py-2.5">
-        <div className="flex-1 h-full rounded-lg bg-surface/80" />
+        <div 
+          style={{ height: itemHeight }}
+          className="flex-1 rounded-lg bg-surface/80" 
+        />
       </div>
       <div
         ref={scrollRef}
         onScroll={handleScroll}
-        className="h-full overflow-y-scroll">
+        className="h-full overflow-y-scroll no-scrollbar">
         <div
-          style={{ paddingTop: PADDING, paddingBottom: PADDING }}
+          style={{ paddingTop: padding, paddingBottom: padding }}
           className="px-4">
           {options.map((option, index) => (
             <div
               key={option}
-              style={{ height: ITEM_HEIGHT, scrollSnapAlign: "center" }}
-              className={`flex items-center justify-center transition-transform ${
-                selected === option ? "opacity-100 text-primary scale-100" : "opacity-40 scale-90"
+              style={{ height: itemHeight, scrollSnapAlign: "center" }}
+              className={`flex items-center justify-center transition-transform cursor-pointer ${
+                selected === option ? "opacity-100 text-primary scale-100 font-bold" : "opacity-40 scale-90"
               }`}
               onClick={() => handleClick(index)}>
-              <p className="truncate">{option}</p>
+              <p 
+                style={{ fontSize }}
+                className="truncate">
+                {option}
+              </p>
             </div>
           ))}
         </div>

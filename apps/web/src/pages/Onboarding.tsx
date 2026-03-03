@@ -24,7 +24,7 @@ const Onboarding = () => {
         tab.move(
           isLoggedIn
             ? isRegistered
-              ? "ddanjit-start"
+              ? "activity-time"
               : "register-info"
             : "login",
         )

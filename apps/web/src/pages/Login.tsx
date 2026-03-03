@@ -61,7 +61,7 @@ const Login = () => {
           closeRequest={closeRequest}
           closeDelay={0.2}
           animationStyle="bouncy"
-          onAnimationComplete={() => tab.move(isRegistered ? "ddanjit-start" : "register-info")}>
+          onAnimationComplete={() => tab.move(isRegistered ? "activity-time" : "register-info")}>
           <button
             className="transition-transform active:scale-95 drop-shadow-md"
             onClick={() => login("google")}>

@@ -22,7 +22,7 @@ const DoneRegister = () => {
       closeRequest={closeRequest}
       duration={0.5}
       closeDelay={1}
-      onAnimationComplete={() => tab.move("ddanjit-start")}>
+      onAnimationComplete={() => tab.move("activity-time")}>
       <Screen className="flex flex-col items-center justify-center gap-5 bg-primary">
         <Sliding
           direction="left-right"
