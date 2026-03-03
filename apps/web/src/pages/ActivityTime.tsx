@@ -5,9 +5,9 @@ import { useState } from "react";
 import { useTab } from "../shared/providers/tab-provider/useTab";
 import QuitButton from "../widgets/QuitButton";
 import Progress from "../widgets/Progress";
-import { useTimeStore } from "../features/start-activity/stores/time";
+import { useTimeStore } from "../features/find-activity/stores/time";
 import { usePersistedState } from "../shared/providers/snapshot-provider/usePersistedState";
-import { timeOptions } from "../features/start-activity/constants/options";
+import { timeOptions } from "../features/find-activity/constants/options";
 
 const ActivityTime = () => {
   const [closeRequest, setCloseRequest] = useState(false);
@@ -75,13 +75,13 @@ const ActivityTime = () => {
         closeRequest={closeRequest}
         closeDelay={0.8}
         animationStyle="bouncy"
-        onAnimationComplete={() => tab.move("activity-situation")}>
+        onAnimationComplete={() => tab.move("activity-find")}>
         <Button
           background="primary"
           size="full"
           className="text-white"
           onClick={handleNext}>
-          다음
+          딴짓 찾기
         </Button>
       </Sliding>
       <QuitButton

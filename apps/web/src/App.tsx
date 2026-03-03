@@ -1,4 +1,3 @@
-import ActivitySituation from "./pages/ActivitySituation";
 import ActivityTime from "./pages/ActivityTime";
 import AnalyzeAcquisition from "./pages/AnalyzeAcquisition";
 import DoneRegister from "./pages/DoneRegister";
@@ -25,7 +24,6 @@ const App = () => {
           { key: "analyze-acquisition", component: <AnalyzeAcquisition /> },
           { key: "done-register", component: <DoneRegister /> },
           { key: "activity-time", component: <ActivityTime /> },
-          { key: "activity-situation", component: <ActivitySituation /> },
           { key: "activity-find", component: <FindActivity /> },
         ]}
         initialKey={currentTab}
