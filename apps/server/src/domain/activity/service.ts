@@ -11,13 +11,13 @@ import {
 } from "@ddanjit/domain";
 
 export const activityService = {
-  async findRandomActivity(
+  async findCandidates(
     email: string,
     duration: Duration,
     time: number,
     bundleId?: string,
   ) {
-    if(!email) throw new Error(GlobalError.UNAUTHORIZED);
+    if (!email) throw new Error(GlobalError.UNAUTHORIZED);
     const user = await userRepository.findByEmail(email);
     if (!user) throw new Error(UserError.NOTFOUND);
 
@@ -30,26 +30,22 @@ export const activityService = {
       ? JSON.parse(retryHistoryRaw)
       : [];
 
-    // 1. 최근 플레이 이력 확인 (5일 이내 플레이한 활동은 제외 대상)
     const recentPlayHistory = await activityRepository.getUserPlayHistory(
       userId,
       5,
     );
     const recentPlayedIds = recentPlayHistory.map((h) => h.activityId);
 
-    // 제외할 모든 ID 통합 (최근 플레이 + 다시 찾기 히스토리)
     const excludeIds = Array.from(
       new Set([...recentPlayedIds, ...retryHistoryIds]),
     );
 
-    // 2. 구매 이력 확인
     const purchases = await activityRepository.getUserPurchaseHistory(userId);
     const purchasedBundleIds = new Set(purchases.map((p) => p.bundleId));
     const isBundlePurchased = parsedBundleId
       ? purchasedBundleIds.has(parsedBundleId)
       : false;
 
-    // 3. 재시도 로직 정의
     const getDurationRange = (current: string) => {
       const idx = durationEnum.indexOf(current as any);
       if (idx === -1 || idx === durationEnum.length - 1) return [current];
@@ -57,19 +53,16 @@ export const activityService = {
     };
 
     const attempts = [
-      // Attempt 0: exact match
       {
         time,
         duration: duration as Duration[] | Duration,
         bundleId: parsedBundleId,
       },
-      // Attempt 1: broaden time (+/- 1)
       {
         time: [time - 1, time + 1] as [number, number],
         duration: duration as Duration[] | Duration,
         bundleId: parsedBundleId,
       },
-      // Attempt 2: broaden duration & remove bundleId
       {
         time: [time - 1, time + 1] as [number, number],
         duration: getDurationRange(duration) as Duration[] | Duration,
@@ -94,6 +87,18 @@ export const activityService = {
       });
     }
 
+    return { candidates, userId, retryHistoryKey, retryHistoryIds };
+  },
+
+  async findRandomActivity(
+    email: string,
+    duration: Duration,
+    time: number,
+    bundleId?: string,
+  ) {
+    const { candidates, userId, retryHistoryKey, retryHistoryIds } =
+      await this.findCandidates(email, duration, time, bundleId);
+
     const allPlayHistory = await activityRepository.getUserPlayHistory(userId);
     const allPlayedIds = new Set(allPlayHistory.map((h) => h.activityId));
 
@@ -115,5 +120,20 @@ export const activityService = {
     );
 
     return BaseResponseBuilder(200, "", selected);
+  },
+
+  async findCandidateList(
+    email: string,
+    duration: Duration,
+    time: number,
+    bundleId?: string,
+  ) {
+    const { candidates } = await this.findCandidates(
+      email,
+      duration,
+      time,
+      bundleId,
+    );
+    return BaseResponseBuilder(200, "", candidates);
   },
 };

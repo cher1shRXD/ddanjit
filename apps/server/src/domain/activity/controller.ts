@@ -32,4 +32,29 @@ export const activityController = async (fastify: FastifyInstance) => {
       );
     },
   );
+
+  app.get(
+    "/candidates",
+    {
+      onRequest: [requireAuth],
+      schema: {
+        querystring: RecommendActivityReqSchema,
+      },
+    },
+    async (request, reply) => {
+      const { duration, time, bundleId } = request.query;
+      const { email } = request.user;
+
+      return send(
+        () =>
+          activityService.findCandidateList(
+            email,
+            duration,
+            time,
+            bundleId,
+          ),
+        reply,
+      );
+    },
+  );
 };
