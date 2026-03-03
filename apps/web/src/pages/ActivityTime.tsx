@@ -7,6 +7,7 @@ import QuitButton from "../widgets/QuitButton";
 import { useTimeStore } from "../features/find-activity/stores/time";
 import { usePersistedState } from "../shared/providers/snapshot-provider/usePersistedState";
 import { timeOptions } from "../features/find-activity/constants/options";
+import type { Duration } from "@ddanjit/domain";
 
 const ActivityTime = () => {
   const [closeRequest, setCloseRequest] = useState(false);
@@ -18,7 +19,7 @@ const ActivityTime = () => {
   const tab = useTab();
 
   const handleNext = () => {
-    setTime(selected);
+    setTime(selected as Duration);
     setCloseRequest(true);
   };
 

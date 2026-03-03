@@ -6,6 +6,8 @@ import {
   BaseResponseBuilder,
   Duration,
   durationEnum,
+  GlobalError,
+  UserError,
 } from "@ddanjit/domain";
 
 export const activityService = {
@@ -15,8 +17,9 @@ export const activityService = {
     time: number,
     bundleId?: string,
   ) {
+    if(!email) throw new Error(GlobalError.UNAUTHORIZED);
     const user = await userRepository.findByEmail(email);
-    if (!user) throw new Error("User not found");
+    if (!user) throw new Error(UserError.NOTFOUND);
 
     const userId = user.id;
     const parsedBundleId = bundleId ? parseInt(bundleId) : undefined;
