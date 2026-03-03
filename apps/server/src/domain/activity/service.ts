@@ -46,7 +46,7 @@ export const activityService = {
       ? purchasedBundleIds.has(parsedBundleId)
       : false;
 
-    const getDurationRange = (current: string) => {
+    const getDurationRange = (current: Duration): Duration[] => {
       const idx = durationEnum.indexOf(current as any);
       if (idx === -1 || idx === durationEnum.length - 1) return [current];
       return [current, durationEnum[idx + 1]!];
@@ -55,17 +55,17 @@ export const activityService = {
     const attempts = [
       {
         time,
-        duration: duration as Duration[] | Duration,
+        duration: duration,
         bundleId: parsedBundleId,
       },
       {
         time: [time - 1, time + 1] as [number, number],
-        duration: duration as Duration[] | Duration,
+        duration: duration,
         bundleId: parsedBundleId,
       },
       {
         time: [time - 1, time + 1] as [number, number],
-        duration: getDurationRange(duration) as Duration[] | Duration,
+        duration: getDurationRange(duration),
         bundleId: undefined,
       },
     ];
