@@ -8,6 +8,7 @@ import QuitButton from "../widgets/QuitButton";
 import { useTab } from "../shared/providers/tab-provider/useTab";
 import { icons } from "../shared/constants/icons";
 import { useQueryClient } from "@tanstack/react-query";
+import { usePlay } from "../features/find-activity/hooks/usePlay";
 
 const ActivityFound = () => {
   const [closeRequest, setCloseRequest] = useState(false);
@@ -17,6 +18,7 @@ const ActivityFound = () => {
   const activity = data?.data.data;
   const tab = useTab();
   const queryClient = useQueryClient();
+  const { play } = usePlay();
 
   const handleNext = () => {
     setIsAgreed(true);
@@ -74,10 +76,10 @@ const ActivityFound = () => {
         startPosition="400%"
         delay={0.4}
         closeRequest={closeRequest}
-        closeDelay={0.8}
+        closeDelay={0.4}
         animationStyle="bouncy"
         onAnimationComplete={() =>
-          isAgreed ? tab.move("activity") : tab.move("activity-refind")
+          isAgreed ? play(activity!) : tab.move("activity-refind")
         }>
         <Button
           background="primary"

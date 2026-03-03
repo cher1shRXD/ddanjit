@@ -1,19 +1,18 @@
 import { useState } from "react";
-import Screen from "../shared/providers/safe-area-provider/Screen";
-import { useFindActivityQuery } from "../features/find-activity/queries";
-import { useTimeStore } from "../features/find-activity/stores/time";
-import { Button, Spacer } from "@ddanjit/ui";
-import Sliding from "../shared/ui/Sliding";
-import QuitButton from "../widgets/QuitButton";
+import { useFindShortActivityQuery } from "../features/find-activity/queries";
 import { useTab } from "../shared/providers/tab-provider/useTab";
+import { Spacer } from "../../../../packages/ui/src/Spacer";
+import Sliding from "../shared/ui/Sliding";
+import Screen from "../shared/providers/safe-area-provider/Screen";
+import { Button } from "../../../../packages/ui/src/Button";
+import QuitButton from "../widgets/QuitButton";
 import { icons } from "../shared/constants/icons";
 import { usePlay } from "../features/find-activity/hooks/usePlay";
 
-const ActivityRefound = () => {
+const ShortActivityFound = () => {
   const [closeRequest, setCloseRequest] = useState(false);
   const [isAgreed, setIsAgreed] = useState(false);
-  const { time } = useTimeStore();
-  const { data } = useFindActivityQuery(time);
+  const { data } = useFindShortActivityQuery();
   const activity = data?.data.data;
   const tab = useTab();
   const { play } = usePlay();
@@ -21,7 +20,7 @@ const ActivityRefound = () => {
   const handleNext = () => {
     setIsAgreed(true);
     setCloseRequest(true);
-  }
+  };
 
   return (
     <Screen className="flex flex-col w-full gap-5">
@@ -32,7 +31,7 @@ const ActivityRefound = () => {
         closeRequest={closeRequest}
         closeDelay={0.2}
         animationStyle="bouncy">
-        <h1 className="text-4xl font-bold">또다른 딴짓을 찾았어요!</h1>
+        <h1 className="text-4xl font-bold">결국 여기까지 왔군요.</h1>
       </Sliding>
       <Sliding
         direction="left-right"
@@ -53,7 +52,11 @@ const ActivityRefound = () => {
         animationStyle="bouncy"
         className="flex justify-center w-full">
         <h2 className="text-2xl font-semibold">
-          <img src={icons[activity?.icon || "lightbulb"]} alt="icon" className="w-50 h-50" />
+          <img
+            src={icons[activity?.icon || "lightbulb"]}
+            alt="icon"
+            className="w-50 h-50"
+          />
         </h2>
       </Sliding>
       <Spacer />
@@ -64,7 +67,9 @@ const ActivityRefound = () => {
         closeRequest={closeRequest}
         closeDelay={0.4}
         animationStyle="bouncy"
-        onAnimationComplete={() => isAgreed ? play(activity!) : tab.move("activity-list")}>
+        onAnimationComplete={() =>
+          isAgreed ? play(activity!) : tab.move("report")
+        }>
         <Button
           background="primary"
           size="full"
@@ -76,10 +81,10 @@ const ActivityRefound = () => {
       <QuitButton
         closeRequest={closeRequest}
         onClick={() => setCloseRequest(true)}
-        text="이것도 마음에 안들어요. 직접 찾을게요."
+        text="마음에 안들어요. 나갈래요."
       />
     </Screen>
   );
 };
 
-export default ActivityRefound;
+export default ShortActivityFound;

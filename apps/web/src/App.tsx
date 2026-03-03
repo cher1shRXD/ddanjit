@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import ActivityFound from "./pages/ActivityFound";
 import ActivityTime from "./pages/ActivityTime";
 import AnalyzeAcquisition from "./pages/AnalyzeAcquisition";
@@ -11,6 +10,10 @@ import { storage } from "./shared/libs/storage/storage";
 import { TabProvider } from "./shared/providers/tab-provider";
 import RefindActivity from "./pages/RefindActivity";
 import ActivityRefound from "./pages/ActivityRefound";
+import ActivityList from "./pages/ActivityList";
+import { useEffect } from "react";
+import FindShortActivity from "./pages/FindShortActivity";
+import ShortActivityFound from "./pages/ShortActivityFound";
 
 const App = () => {
   const currentTab = storage.getItem("current-tab") || "onboarding";
@@ -36,6 +39,9 @@ const App = () => {
           { key: "activity-found", component: <ActivityFound /> },
           { key: "activity-refind", component: <RefindActivity /> },
           { key: "activity-refound", component: <ActivityRefound /> },
+          { key: "activity-list", component: <ActivityList /> },
+          { key: "activity-find-short", component: <FindShortActivity /> },
+          { key: "activity-found-short", component: <ShortActivityFound /> },
         ]}
         initialKey={currentTab}
       />

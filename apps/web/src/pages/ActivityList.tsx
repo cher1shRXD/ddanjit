@@ -1,37 +1,29 @@
-import { Button, Dropdown, Spacer } from "@ddanjit/ui";
+import { Button, Spacer } from "@ddanjit/ui";
+import { useGetActivityListQuery } from "../features/find-activity/queries";
+import { useTimeStore } from "../features/find-activity/stores/time";
 import Screen from "../shared/providers/safe-area-provider/Screen";
 import Sliding from "../shared/ui/Sliding";
 import { useState } from "react";
-import { useTab } from "../shared/providers/tab-provider/useTab";
+import ActivityItem from "../features/find-activity/ui/ActivityItem";
 import QuitButton from "../widgets/QuitButton";
-import { useTimeStore } from "../features/find-activity/stores/time";
 import { usePersistedState } from "../shared/providers/snapshot-provider/usePersistedState";
-import { timeOptions } from "../features/find-activity/constants/options";
-import type { Duration } from "@ddanjit/domain";
 import Modal from "../widgets/Modal";
+import { useTab } from "../shared/providers/tab-provider/useTab";
 
-const ActivityTime = () => {
+const ActivityList = () => {
   const [closeRequest, setCloseRequest] = useState(false);
-  const { time, setTime } = useTimeStore();
-  const [selected, setSelected] = usePersistedState(
-    time !== timeOptions[0] ? time : timeOptions[0],
-    "activity-time-selected",
-  );
-  const tab = useTab();
+  const { time } = useTimeStore();
+  const { data, isLoading } = useGetActivityListQuery(time);
+  const activityList = data?.data.data || [];
   const [showModal, setShowModal] = usePersistedState(
     false,
-    "activity-time-show-modal",
+    "activity-list-show-modal",
   );
   const [isAgreed, setIsAgreed] = useState(false);
-
-  const handleNext = () => {
-    setTime(selected as Duration);
-    setIsAgreed(true);
-    setCloseRequest(true);
-  };
+  const tab = useTab();
 
   return (
-    <Screen className="flex flex-col w-full gap-5">
+    <Screen className="flex flex-col gap-5">
       <Spacer height={60} />
       <Sliding
         direction="left-right"
@@ -39,7 +31,7 @@ const ActivityTime = () => {
         closeRequest={closeRequest}
         closeDelay={0.2}
         animationStyle="bouncy">
-        <h1 className="text-4xl font-bold">시작하기</h1>
+        <h1 className="text-4xl font-bold">마음에 들지 않았나요?</h1>
       </Sliding>
       <Sliding
         direction="left-right"
@@ -49,31 +41,12 @@ const ActivityTime = () => {
         closeDelay={0.3}
         animationStyle="bouncy">
         <h2 className="text-2xl font-semibold">
-          짧은 여유 시간이 생기셨군요!
+          작성한 소요시간에 맞는
           <br />
-          어느 정도를 딴짓에 사용 할까요?
+          딴짓 목록이에요.
         </h2>
       </Sliding>
       <Spacer height={0} />
-      <Sliding
-        direction="left-right"
-        startPosition="150%"
-        delay={0.3}
-        closeRequest={closeRequest}
-        closeDelay={0.3}
-        animationStyle="bouncy"
-        className="flex items-center justify-center w-full">
-        <div className="flex items-center justify-center gap-3">
-          <Dropdown
-            selected={selected}
-            onChange={setSelected}
-            options={timeOptions}
-            fontSize={24}
-          />
-          <p className="text-2xl font-bold">분</p>
-        </div>
-      </Sliding>
-      <Spacer />
       <Sliding
         direction="bottom-top"
         startPosition="400%"
@@ -82,31 +55,28 @@ const ActivityTime = () => {
         closeDelay={0.4}
         animationStyle="bouncy"
         onAnimationComplete={() =>
-          isAgreed
-            ? showModal
-              ? tab.move("activity-find-short")
-              : tab.move("activity-find")
-            : tab.move("report")
-        }>
-        <Button
-          background="primary"
-          size="full"
-          className="text-white"
-          onClick={handleNext}>
-          딴짓 찾기
-        </Button>
+          isAgreed ? tab.move("activity-find-short") : tab.move("report")
+        }
+        className="flex-1 w-full py-2 overflow-y-scroll rounded-lg bg-surface/60">
+        {isLoading ? (
+          <p className="text-center">로딩중...</p>
+        ) : (
+          activityList.map((activity) => (
+            <ActivityItem key={activity.id} data={activity} />
+          ))
+        )}
       </Sliding>
       <QuitButton
         closeRequest={closeRequest}
         onClick={() => setShowModal(true)}
-        text="지금은 별로 하고싶지 않아요."
+        text="여기도 마음에 드는게 없네요. 오늘은 안할래요."
       />
       {showModal && (
         <Modal
           requestParentClose={setCloseRequest}
           texts={[
             "마음에 드는게 그렇게 없어?\n아쉬운대로 “1분 만에” 끝나는 딴짓이라도 볼래?",
-            "이거만 해도 하루 정도는 연속 기록으로 쳐줘!",
+            "이거만 해도 하루 정도는 연속 기록으로 쳐줘!"
           ]}
           enterButton={
             <Button
@@ -132,4 +102,4 @@ const ActivityTime = () => {
   );
 };
 
-export default ActivityTime;
+export default ActivityList;

@@ -136,4 +136,49 @@ export const activityService = {
     );
     return BaseResponseBuilder(200, "", candidates);
   },
+
+  async findShortActivity(email: string) {
+    if (!email) throw new Error(GlobalError.UNAUTHORIZED);
+    const user = await userRepository.findByEmail(email);
+    if (!user) throw new Error(UserError.NOTFOUND);
+
+    const userId = user.id;
+    const time = new Date().getHours();
+    const duration: Duration = "1";
+
+    const recentPlayHistory = await activityRepository.getUserPlayHistory(
+      userId,
+      5,
+    );
+    const recentPlayedIds = recentPlayHistory.map((h) => h.activityId);
+
+    const purchases = await activityRepository.getUserPurchaseHistory(userId);
+    const isBundlePurchased = purchases.length > 0;
+
+    let candidates = await activityRepository.findRecommended({
+      time,
+      duration,
+      isFreeOnly: !isBundlePurchased,
+      excludeIds: recentPlayedIds,
+    });
+
+    if (candidates.length === 0) {
+      candidates = await activityRepository.findRecommended({
+        duration,
+        isFreeOnly: !isBundlePurchased,
+        excludeIds: recentPlayedIds,
+      });
+    }
+
+    if (candidates.length === 0) {
+      candidates = await activityRepository.findRecommended({
+        duration,
+        isFreeOnly: !isBundlePurchased,
+        excludeIds: [],
+      });
+    }
+
+    const selected = candidates[Math.floor(Math.random() * candidates.length)];
+    return BaseResponseBuilder(200, "", selected);
+  },
 };

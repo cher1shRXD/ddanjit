@@ -57,4 +57,17 @@ export const activityController = async (fastify: FastifyInstance) => {
       );
     },
   );
+
+  app.get(
+    "/short",
+    {
+      onRequest: [requireAuth],
+    },
+    async (request, reply) => {
+      const { email } = request.user;
+
+      return send(() => activityService.findShortActivity(email), reply);
+    },
+  );
 };
+
