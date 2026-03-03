@@ -16,6 +16,10 @@ export const authController = async (fastify: FastifyInstance) => {
     return send(() => authService.loginWithApple(idToken), reply);
   });
 
+  app.post("/test", async (req, reply) => {
+    return send(() => authService.testLogin(), reply);
+  })
+
   app.post("/logout", async (req, reply) => {
     const user = req.user;
     return send(() => authService.logout(user.email), reply);

@@ -32,5 +32,23 @@ export const useLogin = (requestClose: (state: boolean) => void) => {
     }
   };
 
-  return { login };
+  const testLogin = async () => {
+    try {
+      const { data } = await LoginApi.login("test", "");
+
+      if (data.data) {
+        alert(data.message);
+        storage.setItem("ACCESS_TOKEN", data.data.accessToken);
+        storage.setItem("REFRESH_TOKEN", data.data.refreshToken);
+        requestClose(true);
+      }
+    } catch (error) {
+      const err = error as AxiosError<ErrorResponse>;
+      alert(
+        `로그인에 실패했습니다. ${err.response?.data.message || err.message}`,
+      );
+    }
+  };
+
+  return { login, testLogin };
 };

@@ -61,13 +61,7 @@ export const Dropdown = ({ options, selected, onChange, fontSize = 16 }: Props) 
   return (
     <div 
       style={{ height: containerHeight }}
-      className="bg-surface/60 w-min px-1 rounded-2xl relative flex items-center">
-      <div className="absolute top-0 left-0 w-full h-full -z-10 flex items-center px-1 py-2.5">
-        <div 
-          style={{ height: itemHeight }}
-          className="flex-1 rounded-lg bg-surface/80" 
-        />
-      </div>
+      className="relative flex items-center px-1 bg-surface/60 w-min rounded-2xl">
       <div
         ref={scrollRef}
         onScroll={handleScroll}

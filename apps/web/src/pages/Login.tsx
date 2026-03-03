@@ -11,7 +11,7 @@ import { useState } from "react";
 
 const Login = () => {
   const [closeRequest, setCloseRequest] = useState(false);
-  const { login } = useLogin(setCloseRequest);
+  const { login, testLogin } = useLogin(setCloseRequest);
   const { isRegistered } = useCheckInfo();
   const tab = useTab();
 
@@ -54,6 +54,20 @@ const Login = () => {
       </Sliding>
       <Spacer />
       <div className="space-y-1">
+        <Sliding
+          direction="bottom-top"
+          startPosition="400%"
+          delay={0.3}
+          closeRequest={closeRequest}
+          closeDelay={0.2}
+          animationStyle="bouncy"
+          onAnimationComplete={() => tab.move(isRegistered ? "activity-time" : "register-info")}>
+          <button
+            className="transition-transform active:scale-95 drop-shadow-md"
+            onClick={testLogin}>
+            <img src={GoogleLogin} alt="Google Login" />
+          </button>
+        </Sliding>
         <Sliding
           direction="bottom-top"
           startPosition="400%"

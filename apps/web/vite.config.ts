@@ -15,10 +15,10 @@ export default defineConfig({
   ],
   server: {
     host: true,
-    https: {
-      key: fs.readFileSync("/Users/cher1shRXD/cher1shrxds-macbookpro.tail1ddfe6.ts.net.key"),
-      cert: fs.readFileSync("/Users/cher1shRXD/cher1shrxds-macbookpro.tail1ddfe6.ts.net.crt"),
-    },
+    // https: {
+    //   key: fs.readFileSync("/Users/cher1shRXD/cher1shrxds-macbookpro.tail1ddfe6.ts.net.key"),
+    //   cert: fs.readFileSync("/Users/cher1shRXD/cher1shrxds-macbookpro.tail1ddfe6.ts.net.crt"),
+    // },
     watch: {
       ignored: ["!**/packages/ui/**"],
     },

@@ -53,7 +53,7 @@ const Modal = ({
           {texts?.map((text, index, arr) => (
             <pre
               key={index}
-              className="px-4 py-5 text-sm rounded-4xl bg-surface text-wrap"
+              className="px-4 py-5 text-sm text-white rounded-4xl bg-primary text-wrap"
               style={
                 index === 0
                   ? { borderBottomLeftRadius: 0 }

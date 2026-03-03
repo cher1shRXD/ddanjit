@@ -25,6 +25,18 @@ export const authService = {
     );
   },
 
+  async testLogin() {
+    return BaseResponseBuilder(
+      200,
+      "테스트 로그인입니다.",
+      await this.loginOrRegister(
+        "apple",
+        "001381.f7060d1a94d742d880b7ca57b1632bcb.1303",
+        "86ssndrpyt@privaterelay.appleid.com",
+      ),
+    );
+  },
+
   async loginOrRegister(
     provider: OauthProvider,
     oauthId: string,
