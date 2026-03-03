@@ -3,6 +3,7 @@ import { Errors, Error as BridgeError } from "../enums/error";
 
 export const BridgeResponseSchema = z.object({
   id: z.string(),
+  type: z.string(),
   timestamp: z.number(),
   success: z.boolean(),
   data: z.optional(z.unknown()),

@@ -6,7 +6,7 @@ import { LoginApi } from "../api";
 import { storage } from "../../../shared/libs/storage/storage";
 
 export const useLogin = (requestClose: (state: boolean) => void) => {
-  const execute = useBridge();
+  const { execute } = useBridge();
 
   const login = async (provider: string) => {
     const response = await execute<{ idToken: string }>(RequestTypes.LOGIN, {

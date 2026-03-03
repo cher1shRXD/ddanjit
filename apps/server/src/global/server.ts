@@ -12,17 +12,23 @@ import fastifySwagger from "@fastify/swagger";
 import fastifySwaggerUi from "@fastify/swagger-ui";
 import { authController } from "../domain/auth/controller";
 import fastifyCors from "@fastify/cors";
-import jwt from "@fastify/jwt";
 import "dotenv/config";
 import "./jwt/types";
+import fs from "fs";
 
-export const fastify = Fastify({ logger: true });
+export const fastify = Fastify({
+  logger: true,
+  https: {
+    key: fs.readFileSync("/Users/cher1shRXD/cher1shrxds-macbookpro.tail1ddfe6.ts.net.key"),
+    cert: fs.readFileSync("/Users/cher1shRXD/cher1shrxds-macbookpro.tail1ddfe6.ts.net.crt"),
+  }
+});
 
 fastify.setValidatorCompiler(validatorCompiler);
 fastify.setSerializerCompiler(serializerCompiler);
 
 fastify.register(fastifyCors, {
-  origin: ["http://10.80.162.214:5173"],
+  origin: ["https://cher1shrxds-macbookpro.tail1ddfe6.ts.net:5173"],
   methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "HEAD", "OPTIONS"],
   credentials: true,
 });

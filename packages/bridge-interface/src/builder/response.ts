@@ -3,12 +3,14 @@ import { Error } from "../types/enums/error";
 
 export const Response = <T>(
   id: string,
+  type: string,
   success: boolean,
   data?: T,
   error?: Error,
 ) => {
   return {
     id,
+    type,
     timestamp: Date.now(),
     success,
     data,

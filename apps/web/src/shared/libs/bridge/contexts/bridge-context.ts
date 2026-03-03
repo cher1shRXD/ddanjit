@@ -6,4 +6,7 @@ export const BridgeContext = createContext<ContextType>({
   execute: async () => {
     throw new Error("Bridge not initialized");
   },
+  subscribe: () => {
+    throw new Error("Bridge not initialized");
+  },
 });

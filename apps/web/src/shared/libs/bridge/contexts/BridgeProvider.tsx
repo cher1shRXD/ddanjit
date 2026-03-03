@@ -12,9 +12,13 @@ import {
   type BridgeResponse,
   type PendingRequest,
   parseBridgeResponse,
+  RequestTypes,
+  Request,
+  type BridgeTask,
 } from "@ddanjit/bridge-interface";
 import { BridgeContext } from "./bridge-context";
 import { execute } from "./execute";
+import { bridgeManager } from "../bridge-manager";
 
 export const BridgeProvider = ({ children }: PropsWithChildren) => {
   const queueRef = useRef<Record<string, PendingRequest>>({});
@@ -31,6 +35,13 @@ export const BridgeProvider = ({ children }: PropsWithChildren) => {
     delete queueRef.current[id];
   }, []);
 
+  const sendAck = useCallback((id: string) => {
+    if (window.ReactNativeWebView) {
+      const ackRequest = Request(RequestTypes.ACK, { id });
+      window.ReactNativeWebView.postMessage(JSON.stringify(ackRequest));
+    }
+  }, []);
+
   useEffect(() => {
     const handleMessage = (event: MessageEvent) => {
       try {
@@ -38,10 +49,27 @@ export const BridgeProvider = ({ children }: PropsWithChildren) => {
         const response = parseBridgeResponse(parsed);
         const { id } = response;
 
+        // If it's a recovery response, handle it specially
+        if (response.id === "recovery") {
+          const tasks = response.data as BridgeTask[];
+          tasks.forEach((task) => {
+            if (task.status === "COMPLETED" && task.response) {
+              // Emit all recovered responses
+              bridgeManager.emit(task.response);
+              sendAck(task.id);
+            }
+          });
+          return;
+        }
+
+        // Emit every response through the manager
+        bridgeManager.emit(response);
+
         const pending = queueRef.current[id];
 
         if (!pending) {
           console.warn("No pending request found for id:", id);
+          sendAck(id);
           return;
         }
 
@@ -52,6 +80,7 @@ export const BridgeProvider = ({ children }: PropsWithChildren) => {
         pending.resolve(response);
 
         removeFromQueue(id);
+        sendAck(id);
       } catch (err) {
         console.error("Failed to handle message:", err);
       }
@@ -59,10 +88,18 @@ export const BridgeProvider = ({ children }: PropsWithChildren) => {
 
     window.addEventListener("message", handleMessage);
 
+    // Initial recovery request
+    if (window.ReactNativeWebView) {
+      const recoveryRequest = Request(RequestTypes.RECOVERY, {}, undefined);
+      // Give it a special ID so we can recognize the response
+      (recoveryRequest as { id: string }).id = "recovery";
+      window.ReactNativeWebView.postMessage(JSON.stringify(recoveryRequest));
+    }
+
     return () => {
       window.removeEventListener("message", handleMessage);
     };
-  }, [removeFromQueue]);
+  }, [removeFromQueue, sendAck]);
 
   const executeWithQueue = useCallback(
     function <TResponse = unknown>(
@@ -85,6 +122,8 @@ export const BridgeProvider = ({ children }: PropsWithChildren) => {
     () => ({
       bridge: window.ReactNativeWebView,
       execute: executeWithQueue,
+      subscribe: (type: string | "ALL", listener: (res: BridgeResponse<unknown>) => void) => 
+        bridgeManager.subscribe(type, listener),
     }),
     [executeWithQueue],
   );

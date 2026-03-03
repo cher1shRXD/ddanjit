@@ -7,4 +7,8 @@ export interface BridgeContext {
     payload: unknown,
     timeout?: number,
   ) => Promise<BridgeResponse<TResponse>>;
+  subscribe: (
+    type: string | "ALL",
+    listener: (response: BridgeResponse<any>) => void,
+  ) => () => void;
 }

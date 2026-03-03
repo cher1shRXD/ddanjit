@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useCallback, useContext } from "react";
 import { BridgeContext } from "../contexts/bridge-context";
 
 export const useBridge = () => {
@@ -8,5 +8,17 @@ export const useBridge = () => {
     throw new Error("useBridge must be used within a BridgeProvider");
   }
 
-  return context.execute;
+  const on = useCallback(<T>(type: string, callback: (data: T) => void) => {
+    return context.subscribe(type, (res) => {
+      if (res.success) {
+        callback(res.data as T);
+      }
+    });
+  }, [context]);
+
+  return {
+    execute: context.execute,
+    subscribe: context.subscribe,
+    on,
+  };
 };
