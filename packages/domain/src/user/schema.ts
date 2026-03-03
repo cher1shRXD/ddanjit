@@ -23,4 +23,5 @@ export const userTable = mysqlTable("user", {
   joinedAt: datetime("joined_at").notNull().default(new Date()),
   provider: mysqlEnum("provider", oauthProviderEnum).notNull().default("google"),
   oauthId: varchar("oauth_id", { length: 255 }).notNull().unique(),
+  lastPlayedAt: datetime("last_played_at"),
 });
