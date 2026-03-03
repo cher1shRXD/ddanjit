@@ -6,11 +6,12 @@ import {
   Activity,
 } from "@ddanjit/domain";
 import { db } from "../../global/db/mysql";
-import { and, eq, inArray, notInArray, between, gt, SQL } from "drizzle-orm";
+import { and, eq, inArray, notInArray, between, gt, SQL, ne } from "drizzle-orm";
 import { purchaseHistoryTable } from "@ddanjit/domain";
 
 export interface RecommendationParams {
   duration?: Duration | Duration[];
+  excludeDurations?: Duration[];
   time?: number | [number, number];
   bundleId?: number;
   isFreeOnly: boolean;
@@ -18,6 +19,7 @@ export interface RecommendationParams {
 }
 
 export const activityRepository = {
+  // ... (findMany, findById, findByTitle remains same)
   async findMany(bundleId?: number) {
     return bundleId
       ? await db
@@ -45,6 +47,7 @@ export const activityRepository = {
 
   async findRecommended({
     duration,
+    excludeDurations,
     time,
     bundleId,
     isFreeOnly,
@@ -67,6 +70,15 @@ export const activityRepository = {
         filters.push(inArray(activityTable.duration, duration));
       } else {
         filters.push(eq(activityTable.duration, duration));
+      }
+    }
+
+    // 2-1. Exclude Duration filter
+    if (excludeDurations !== undefined && excludeDurations.length > 0) {
+      if (excludeDurations.length === 1) {
+        filters.push(ne(activityTable.duration, excludeDurations[0]!));
+      } else {
+        filters.push(notInArray(activityTable.duration, excludeDurations));
       }
     }
 

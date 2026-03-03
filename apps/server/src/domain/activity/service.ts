@@ -74,6 +74,7 @@ export const activityService = {
     for (const attempt of attempts) {
       candidates = await activityRepository.findRecommended({
         ...attempt,
+        excludeDurations: ["1"],
         isFreeOnly: !isBundlePurchased,
         excludeIds: excludeIds,
       });
@@ -82,6 +83,7 @@ export const activityService = {
 
     if (candidates.length === 0) {
       candidates = await activityRepository.findRecommended({
+        excludeDurations: ["1"],
         isFreeOnly: !isBundlePurchased,
         excludeIds: [],
       });

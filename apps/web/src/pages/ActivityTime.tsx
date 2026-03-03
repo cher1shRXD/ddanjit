@@ -105,7 +105,7 @@ const ActivityTime = () => {
         <Modal
           requestParentClose={setCloseRequest}
           texts={[
-            "마음에 드는게 그렇게 없어?\n아쉬운대로 “1분 만에” 끝나는 딴짓이라도 볼래?",
+            "솔직히 지금 좀 심심하잖아~\n나 같으면 릴스보단 딴짓하면서 의미 있게라도 보낸다 ㅋㅋ",
             "이거만 해도 하루 정도는 연속 기록으로 쳐줘!",
           ]}
           enterButton={
