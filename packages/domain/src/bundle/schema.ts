@@ -20,7 +20,7 @@ export const bundleTable = mysqlTable("bundle", {
     .$onUpdate(() => new Date()),
 });
 
-export const purchaseHistoryTable = mysqlTable("purchase_history", {
+export const bundleOwnershipTable = mysqlTable("bundle_ownership", {
   id: int("id").primaryKey().autoincrement(),
   userId: int("user_id")
     .notNull()
@@ -28,6 +28,5 @@ export const purchaseHistoryTable = mysqlTable("purchase_history", {
   bundleId: int("bundle_id")
     .notNull()
     .references(() => bundleTable.id),
-  isOneTimePurchase: boolean("is_one_time_purchase").notNull().default(true),
-  purchasedAt: datetime("purchased_at").notNull().default(new Date()),
+  acquiredAt: datetime("acquired_at").notNull().default(new Date()),
 });

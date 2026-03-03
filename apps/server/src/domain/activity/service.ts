@@ -40,10 +40,10 @@ export const activityService = {
       new Set([...recentPlayedIds, ...retryHistoryIds]),
     );
 
-    const purchases = await activityRepository.getUserPurchaseHistory(userId);
-    const purchasedBundleIds = new Set(purchases.map((p) => p.bundleId));
-    const isBundlePurchased = parsedBundleId
-      ? purchasedBundleIds.has(parsedBundleId)
+    const ownered = await activityRepository.getUserBundleOwnership(userId);
+    const owneredBundleIds = new Set(ownered.map((p) => p.bundleId));
+    const isOwneredBundle = parsedBundleId
+      ? owneredBundleIds.has(parsedBundleId)
       : false;
 
     const getDurationRange = (current: Duration): Duration[] => {
@@ -75,7 +75,7 @@ export const activityService = {
       candidates = await activityRepository.findRecommended({
         ...attempt,
         excludeDurations: ["1"],
-        isFreeOnly: !isBundlePurchased,
+        isFreeOnly: !isOwneredBundle,
         excludeIds: excludeIds,
       });
       if (candidates.length > 0) break;
@@ -84,7 +84,7 @@ export const activityService = {
     if (candidates.length === 0) {
       candidates = await activityRepository.findRecommended({
         excludeDurations: ["1"],
-        isFreeOnly: !isBundlePurchased,
+        isFreeOnly: !isOwneredBundle,
         excludeIds: [],
       });
     }
@@ -154,20 +154,20 @@ export const activityService = {
     );
     const recentPlayedIds = recentPlayHistory.map((h) => h.activityId);
 
-    const purchases = await activityRepository.getUserPurchaseHistory(userId);
-    const isBundlePurchased = purchases.length > 0;
+    const ownered = await activityRepository.getUserBundleOwnership(userId);
+    const isOwneredActivity = ownered.length > 0;
 
     let candidates = await activityRepository.findRecommended({
       time,
       duration,
-      isFreeOnly: !isBundlePurchased,
+      isFreeOnly: !isOwneredActivity,
       excludeIds: recentPlayedIds,
     });
 
     if (candidates.length === 0) {
       candidates = await activityRepository.findRecommended({
         duration,
-        isFreeOnly: !isBundlePurchased,
+        isFreeOnly: !isOwneredActivity,
         excludeIds: recentPlayedIds,
       });
     }
@@ -175,7 +175,7 @@ export const activityService = {
     if (candidates.length === 0) {
       candidates = await activityRepository.findRecommended({
         duration,
-        isFreeOnly: !isBundlePurchased,
+        isFreeOnly: !isOwneredActivity,
         excludeIds: [],
       });
     }

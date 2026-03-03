@@ -7,7 +7,7 @@ import {
 } from "@ddanjit/domain";
 import { db } from "../../global/db/mysql";
 import { and, eq, inArray, notInArray, between, gt, SQL, ne } from "drizzle-orm";
-import { purchaseHistoryTable } from "@ddanjit/domain";
+import { bundleOwnershipTable } from "@ddanjit/domain";
 
 export interface RecommendationParams {
   duration?: Duration | Duration[];
@@ -103,14 +103,14 @@ export const activityRepository = {
       .where(and(...filters))) as Activity[];
   },
 
-  async getUserPurchaseHistory(userId: number, bundleId?: number) {
-    const filters: SQL[] = [eq(purchaseHistoryTable.userId, userId)];
+  async getUserBundleOwnership(userId: number, bundleId?: number) {
+    const filters: SQL[] = [eq(bundleOwnershipTable.userId, userId)];
     if (bundleId) {
-      filters.push(eq(purchaseHistoryTable.bundleId, bundleId));
+      filters.push(eq(bundleOwnershipTable.bundleId, bundleId));
     }
     return await db
       .select()
-      .from(purchaseHistoryTable)
+      .from(bundleOwnershipTable)
       .where(and(...filters));
   },
 

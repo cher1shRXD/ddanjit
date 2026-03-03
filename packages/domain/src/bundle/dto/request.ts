@@ -1,5 +1,5 @@
 import { createInsertSchema } from "drizzle-zod";
-import { bundleTable, purchaseHistoryTable } from "../schema";
+import { bundleTable, bundleOwnershipTable } from "../schema";
 import z from "zod";
 
 export const SaveBundleReqSchema = createInsertSchema(bundleTable).omit({
@@ -9,9 +9,9 @@ export const SaveBundleReqSchema = createInsertSchema(bundleTable).omit({
 });
 export type SaveBundleReq = z.infer<typeof SaveBundleReqSchema>;
 
-export const PurchaseBundleReqSchema = createInsertSchema(purchaseHistoryTable).omit({
+export const BundleOwnershipReqSchema = createInsertSchema(bundleOwnershipTable).omit({
   id: true,
   userId: true,
-  purchasedAt: true,
+  acquiredAt: true,
 });
-export type PurchaseBundleReq = z.infer<typeof PurchaseBundleReqSchema>;
+export type BundleOwnershipReq = z.infer<typeof BundleOwnershipReqSchema>;
