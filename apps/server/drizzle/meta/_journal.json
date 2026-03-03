@@ -22,6 +22,34 @@
       "when": 1772384288921,
       "tag": "0002_quick_blizzard",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1772519305619,
+      "tag": "0003_blushing_surge",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "5",
+      "when": 1772523657864,
+      "tag": "0004_condemned_mindworm",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "5",
+      "when": 1772524075467,
+      "tag": "0005_little_natasha_romanoff",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "5",
+      "when": 1772525130781,
+      "tag": "0006_goofy_stryfe",
+      "breakpoints": true
     }
   ]
 }

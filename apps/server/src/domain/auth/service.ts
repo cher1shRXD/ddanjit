@@ -3,25 +3,25 @@ import { JwtProvider } from "../../global/jwt/provider";
 import { userRepository } from "../user/repository";
 import { appleService } from "./external/apple";
 import { googleService } from "./external/google";
-import { FastifyInstance } from "fastify";
+import { fastify } from "../../global/server";
 
 export const authService = {
-  async loginWithGoogle(idToken: string, fastify: FastifyInstance) {
+  async loginWithGoogle(idToken: string) {
     console.log("authService loginWithGoogle", { idToken });
     const { oauthId, email } = await googleService.verify(idToken);
     return BaseResponseBuilder(
       200,
       "구글 계정으로 로그인 되었습니다.",
-      await this.loginOrRegister("google", oauthId, email, fastify),
+      await this.loginOrRegister("google", oauthId, email),
     );
   },
 
-  async loginWithApple(idToken: string, fastify: FastifyInstance) {
+  async loginWithApple(idToken: string) {
     const { oauthId, email } = await appleService.verify(idToken);
     return BaseResponseBuilder(
       200,
       "애플 계정으로 로그인 되었습니다.",
-      await this.loginOrRegister("apple", oauthId, email, fastify),
+      await this.loginOrRegister("apple", oauthId, email),
     );
   },
 
@@ -29,7 +29,6 @@ export const authService = {
     provider: OauthProvider,
     oauthId: string,
     email: string,
-    fastify: FastifyInstance,
   ) {
     const jwtProvider = JwtProvider(fastify);
     let user = await userRepository.findByOauthId(provider, oauthId);
@@ -47,7 +46,7 @@ export const authService = {
     return { accessToken, refreshToken };
   },
 
-  async logout(email: string, fastify: FastifyInstance) {
+  async logout(email: string) {
     const jwtProvider = JwtProvider(fastify);
     await jwtProvider.deleteTokens(email);
     return BaseResponseBuilder(200, "로그아웃 되었습니다. 다시 만나요!");

@@ -1,4 +1,4 @@
-import { boolean, datetime, int, json, longtext, mysqlEnum, mysqlTable, varchar } from "drizzle-orm/mysql-core";
+import { boolean, datetime, int, json, longtext, mysqlEnum, mysqlTable, varchar, index } from "drizzle-orm/mysql-core";
 import { durationEnum, iconEnum, skippedRecommendationEnum } from "./enums";
 import { userTable } from "../user";
 import { bundleTable } from "../bundle/schema";
@@ -10,12 +10,15 @@ export const activityTable = mysqlTable("activity", {
   instruction: longtext("instruction").notNull(),
   icon: mysqlEnum("icon", iconEnum).notNull(),
   duration: mysqlEnum("duration", durationEnum).notNull(),
-  content: json("content").notNull(),
+  content: json("content").notNull().default({}),
   isFree: boolean("is_free").notNull().default(false),
-  recommendAt: int("fitted_time").notNull().default(0),
+  recommendAt: int("recommend_at").notNull().default(0),
   createdAt: datetime("created_at").notNull().default(new Date()),
   updatedAt: datetime("updated_at").notNull().default(new Date()).$onUpdate(() => new Date()),
-});
+}, (table) => [
+  index("idx_recommend_filter").on(table.recommendAt, table.duration, table.isFree),
+]);
+
 
 export const playHistoryTable = mysqlTable("play_history", {
   id: int().primaryKey().autoincrement(),

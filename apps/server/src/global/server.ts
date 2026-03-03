@@ -8,6 +8,7 @@ import {
 } from "fastify-type-provider-zod";
 import { redisConfig } from "./db/redis";
 import { userController } from "../domain/user/controller";
+import { activityController } from "../domain/activity/controller";
 import fastifySwagger from "@fastify/swagger";
 import fastifySwaggerUi from "@fastify/swagger-ui";
 import { authController } from "../domain/auth/controller";
@@ -47,3 +48,4 @@ fastify.register(fastifySwaggerUi, {
 
 fastify.register(userController, { prefix: "/users" });
 fastify.register(authController, { prefix: "/auth" });
+fastify.register(activityController, { prefix: "/activities" });
