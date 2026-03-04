@@ -19,7 +19,7 @@ export const Instruction = ({ instructions }: Props) => {
           return (
             <div key={globalIndex} className="flex gap-2 text-sm font-medium leading-relaxed text-text/60">
               <span className="shrink-0">{globalIndex + 1}.</span>
-              <span>{text}</span>
+              <span className="break-keep">{text}</span>
             </div>
           );
         })}

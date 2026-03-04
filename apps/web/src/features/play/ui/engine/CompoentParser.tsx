@@ -18,11 +18,12 @@ import { Instruction } from "../components/Instruction";
 interface Props {
   name: string;
   props: ComponentProps;
+  inputs: Record<string, InputValue>;
   onChangeData: (value: InputValue) => void;
   onAction: (action: string) => void;
 }
 
-const ComponentParser = ({ name, props, onChangeData, onAction }: Props) => {
+const ComponentParser = ({ name, props, inputs, onChangeData, onAction }: Props) => {
   switch (name) {
     case "instruction":
       return <Instruction instructions={props.instructions as string[]} />;
@@ -96,7 +97,7 @@ const ComponentParser = ({ name, props, onChangeData, onAction }: Props) => {
       );
     case "spacer":
       return (
-        <Spacer height={props.height as number} width={props.width as number} />
+        <Spacer height={props?.height as number} width={props?.width as number} />
       );
     case "text_viewer":
       return (
@@ -109,6 +110,8 @@ const ComponentParser = ({ name, props, onChangeData, onAction }: Props) => {
       return (
         <Button
           text={props.text as string}
+          requires={props.requires as string[]}
+          inputs={inputs}
           onAction={() => onAction(props.action as string)}
         />
       );

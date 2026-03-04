@@ -3,16 +3,16 @@ import { useEffect, useMemo, useRef } from "react";
 interface Props {
   options: string[];
   selected: string;
+  size?: "fit" | "full"
   onChange: (selected: string) => void;
   fontSize?: number;
 }
 
-export const Dropdown = ({ options, selected, onChange, fontSize = 16 }: Props) => {
+export const Dropdown = ({ options, selected, onChange, fontSize = 16, size = "fit" }: Props) => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const isScrollingRef = useRef(false);
   const timerRef = useRef<ReturnType<typeof setTimeout>>(null);
 
-  // Calculate dimensions based on fontSize
   const itemHeight = useMemo(() => Math.round(fontSize * 2.125), [fontSize]);
   const containerHeight = useMemo(() => Math.round(itemHeight * 1.88), [itemHeight]);
   const padding = useMemo(() => (containerHeight - itemHeight) / 2, [containerHeight, itemHeight]);
@@ -61,14 +61,14 @@ export const Dropdown = ({ options, selected, onChange, fontSize = 16 }: Props) 
   return (
     <div 
       style={{ height: containerHeight }}
-      className="relative flex items-center px-1 bg-surface/60 w-min rounded-2xl">
+      className={`relative flex items-center px-1 bg-surface/60 ${size === "fit" ? "w-min" : "w-full"} rounded-2xl`}>
       <div
         ref={scrollRef}
         onScroll={handleScroll}
-        className="h-full overflow-y-scroll no-scrollbar">
+        className="w-full h-full overflow-y-scroll text-center no-scrollbar">
         <div
           style={{ paddingTop: padding, paddingBottom: padding }}
-          className="px-4">
+          className="px-8">
           {options.map((option, index) => (
             <div
               key={option}

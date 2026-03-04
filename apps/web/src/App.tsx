@@ -11,7 +11,7 @@ import { TabProvider } from "./shared/providers/tab-provider";
 import RefindActivity from "./pages/RefindActivity";
 import ActivityRefound from "./pages/ActivityRefound";
 import ActivityList from "./pages/ActivityList";
-import { Activity, useEffect } from "react";
+import { useEffect } from "react";
 import FindShortActivity from "./pages/FindShortActivity";
 import ShortActivityFound from "./pages/ShortActivityFound";
 import ActivityPlay from "./pages/ActivityPlay";
@@ -25,7 +25,7 @@ const App = () => {
 
   return (
     <div className="w-full h-screen">
-      {/* <TabProvider
+      <TabProvider
         activities={[
           {
             key: "onboarding",
@@ -43,10 +43,10 @@ const App = () => {
           { key: "activity-list", component: <ActivityList /> },
           { key: "activity-find-short", component: <FindShortActivity /> },
           { key: "activity-found-short", component: <ShortActivityFound /> },
+          { key: "activity", component: <ActivityPlay /> },
         ]}
         initialKey={currentTab}
-      /> */}
-      <ActivityPlay />
+      />
     </div>
   );
 };

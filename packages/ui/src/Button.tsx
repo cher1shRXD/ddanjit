@@ -15,7 +15,7 @@ export const Button = ({ background, children, className, size = "full", rounded
         backgroundColor,
         borderRadius: rounded,
       }}
-      className={`${size === "full" ? "w-full" : "w-fit px-6"} ${background === "transparent" ? "py-0" : "py-3"} active:scale-98 transition-all ${className}`}
+      className={`${size === "full" ? "w-full" : "w-fit px-6"} ${background === "transparent" ? "py-0" : "py-3"} not-disabled:active:scale-98 transition-all ${className}`}
       {...props}>
       {children}
     </button>

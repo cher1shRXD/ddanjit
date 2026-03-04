@@ -9,11 +9,12 @@ interface Props {
 
 export const Dropdown = ({ options, onChangeData }: Props) => {
   const [selected, setSelected] = useState(options[0] ?? "");
-  
+
   return (
     <Ui
       options={options}
       selected={selected}
+      size="full"
       onChange={(v) => {
         setSelected(v);
         onChangeData(v);
