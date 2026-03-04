@@ -13,5 +13,5 @@ export type SaveActivityReq = z.infer<typeof SaveActivityReqSchema>;
 export const RecommendActivityReqSchema = z.object({
   duration: z.enum(durationEnum),
   time: z.coerce.number(),
-  bundleId: z.string().optional(),
+  bundleId: z.number().optional(),
 });

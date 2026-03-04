@@ -15,14 +15,13 @@ export const activityService = {
     email: string,
     duration: Duration,
     time: number,
-    bundleId?: string,
+    bundleId?: number,
   ) {
     if (!email) throw new Error(GlobalError.UNAUTHORIZED);
     const user = await userRepository.findByEmail(email);
     if (!user) throw new Error(UserError.NOTFOUND);
 
     const userId = user.id;
-    const parsedBundleId = bundleId ? parseInt(bundleId) : undefined;
 
     const retryHistoryKey = `recommend:retry:${userId}`;
     const retryHistoryRaw = await fastify.redis.get(retryHistoryKey);
@@ -42,8 +41,8 @@ export const activityService = {
 
     const ownered = await activityRepository.getUserBundleOwnership(userId);
     const owneredBundleIds = new Set(ownered.map((p) => p.bundleId));
-    const isOwneredBundle = parsedBundleId
-      ? owneredBundleIds.has(parsedBundleId)
+    const isOwneredBundle = bundleId
+      ? owneredBundleIds.has(bundleId)
       : false;
 
     const getDurationRange = (current: Duration): Duration[] => {
@@ -56,12 +55,12 @@ export const activityService = {
       {
         time,
         duration: duration,
-        bundleId: parsedBundleId,
+        bundleId,
       },
       {
         time: [time - 1, time + 1] as [number, number],
         duration: duration,
-        bundleId: parsedBundleId,
+        bundleId,
       },
       {
         time: [time - 1, time + 1] as [number, number],
@@ -96,7 +95,7 @@ export const activityService = {
     email: string,
     duration: Duration,
     time: number,
-    bundleId?: string,
+    bundleId?: number,
   ) {
     const { candidates, userId, retryHistoryKey, retryHistoryIds } =
       await this.findCandidates(email, duration, time, bundleId);
@@ -128,7 +127,7 @@ export const activityService = {
     email: string,
     duration: Duration,
     time: number,
-    bundleId?: string,
+    bundleId?: number,
   ) {
     const { candidates } = await this.findCandidates(
       email,
