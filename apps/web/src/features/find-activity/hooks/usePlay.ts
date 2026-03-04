@@ -8,7 +8,7 @@ export const usePlay = () => {
 
   const play = (activity: Activity) => {
     setActivity(activity);
-    tab.move("activity");
+    tab.move("activity-start");
   };
 
   return { play };

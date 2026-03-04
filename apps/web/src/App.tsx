@@ -15,6 +15,8 @@ import { useEffect } from "react";
 import FindShortActivity from "./pages/FindShortActivity";
 import ShortActivityFound from "./pages/ShortActivityFound";
 import ActivityPlay from "./pages/ActivityPlay";
+import ActivitySave from "./pages/ActivitySave";
+import ActivityStart from "./pages/ActivityStart";
 
 const App = () => {
   const currentTab = storage.getItem("current-tab") || "onboarding";
@@ -26,25 +28,24 @@ const App = () => {
   return (
     <div className="w-full h-screen">
       <TabProvider
-        activities={[
-          {
-            key: "onboarding",
-            component: <Onboarding />,
-          },
-          { key: "login", component: <Login /> },
-          { key: "register-info", component: <RegisterInfo /> },
-          { key: "analyze-acquisition", component: <AnalyzeAcquisition /> },
-          { key: "done-register", component: <DoneRegister /> },
-          { key: "activity-time", component: <ActivityTime /> },
-          { key: "activity-find", component: <FindActivity /> },
-          { key: "activity-found", component: <ActivityFound /> },
-          { key: "activity-refind", component: <RefindActivity /> },
-          { key: "activity-refound", component: <ActivityRefound /> },
-          { key: "activity-list", component: <ActivityList /> },
-          { key: "activity-find-short", component: <FindShortActivity /> },
-          { key: "activity-found-short", component: <ShortActivityFound /> },
-          { key: "activity", component: <ActivityPlay /> },
-        ]}
+        activities={{
+          onboarding: <Onboarding />,
+          login: <Login />,
+          "register-info": <RegisterInfo />,
+          "analyze-acquisition": <AnalyzeAcquisition />,
+          "done-register": <DoneRegister />,
+          "activity-time": <ActivityTime />,
+          "activity-find": <FindActivity />,
+          "activity-found": <ActivityFound />,
+          "activity-refind": <RefindActivity />,
+          "activity-refound": <ActivityRefound />,
+          "activity-list": <ActivityList />,
+          "activity-find-short": <FindShortActivity />,
+          "activity-found-short": <ShortActivityFound />,
+          activity: <ActivityPlay />,
+          "activity-save": <ActivitySave />,
+          "activity-start": <ActivityStart />,
+        }}
         initialKey={currentTab}
       />
     </div>

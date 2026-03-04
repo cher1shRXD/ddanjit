@@ -10,6 +10,7 @@ import Header from "../features/play/ui/Header";
 import Sliding from "../shared/ui/Sliding";
 import { useActivityStore } from "../features/find-activity/stores/activity";
 import { useResultStore } from "../features/play/stores/result";
+import { useTab } from "../shared/providers/tab-provider/useTab";
 
 const ActivityPlay = () => {
   const { activity } = useActivityStore();
@@ -19,6 +20,7 @@ const ActivityPlay = () => {
   const [isDone, setIsDone] = useState(false);
   const [closeRequest, setCloseRequest] = useState(false);
   const [requestedAction, setRequestedAction] = useState("done");
+  const tab = useTab();
 
   const content = activity?.content as ContentData | undefined;
   const totalSteps = content?.data.length;
@@ -59,6 +61,7 @@ const ActivityPlay = () => {
         break;
       case "done":
         setCloseRequest(true);
+        setIsDone(true);
         setRequestedAction("done");
         break;
     }
@@ -76,7 +79,7 @@ const ActivityPlay = () => {
         break;
       case "done":
         setResult(activity, inputs);
-        setIsDone(true);
+        tab.move("activity-save");
         break;
     }
   };

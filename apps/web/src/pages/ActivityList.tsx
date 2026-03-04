@@ -22,6 +22,11 @@ const ActivityList = () => {
   const [isAgreed, setIsAgreed] = useState(false);
   const tab = useTab();
 
+  const handleSelect = () => {
+    setIsAgreed(true);
+    setCloseRequest(true);
+  };
+
   return (
     <Screen className="flex flex-col gap-5">
       <Spacer height={60} />
@@ -55,14 +60,22 @@ const ActivityList = () => {
         closeDelay={0.4}
         animationStyle="bouncy"
         onAnimationComplete={() =>
-          isAgreed ? tab.move("activity-find-short") : tab.move("report")
+          isAgreed
+            ? showModal
+              ? tab.move("activity-find-short")
+              : tab.move("activity-start")
+            : tab.move("report")
         }
         className="flex-1 w-full py-2 overflow-y-scroll rounded-lg bg-surface/60">
         {isLoading ? (
           <p className="text-center">로딩중...</p>
         ) : (
           activityList.map((activity) => (
-            <ActivityItem key={activity.id} data={activity} />
+            <ActivityItem
+              key={activity.id}
+              data={activity}
+              requestClose={handleSelect}
+            />
           ))
         )}
       </Sliding>
@@ -76,7 +89,7 @@ const ActivityList = () => {
           requestParentClose={setCloseRequest}
           texts={[
             "마음에 드는게 그렇게 없어?\n아쉬운대로 “1분 만에” 끝나는 딴짓이라도 볼래?",
-            "이거만 해도 하루 정도는 연속 기록으로 쳐줘!"
+            "이거만 해도 하루 정도는 연속 기록으로 쳐줘!",
           ]}
           enterButton={
             <Button

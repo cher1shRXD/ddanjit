@@ -1,4 +1,4 @@
-import { Activity, useState } from "react";
+import { useState } from "react";
 import type { TabItem } from "./types";
 import { TabContext } from "./tab-context";
 import { registry } from "../snapshot-provider/registry";
@@ -6,7 +6,7 @@ import SnapshotProvider from "../snapshot-provider/SnapshotProvider";
 import { storage } from "../../libs/storage/storage";
 
 interface Props {
-  activities: TabItem[];
+  activities: TabItem;
   initialKey: string;
 }
 
@@ -26,11 +26,7 @@ export const TabProvider = ({ activities, initialKey }: Props) => {
   return (
     <TabContext.Provider value={{ current, move }}>
       <SnapshotProvider>
-        {activities.map(({ key, component }) => (
-          <Activity key={key} mode={key === current ? "visible" : "hidden"}>
-            {component}
-          </Activity>
-        ))}
+        {activities[current]}
       </SnapshotProvider>
     </TabContext.Provider>
   );
