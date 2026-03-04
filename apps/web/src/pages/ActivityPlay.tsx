@@ -26,7 +26,7 @@ const ActivityPlay = () => {
         if (stepIndex > 0) setStepIndex((prev) => prev - 1);
         break;
       case "done":
-        console.log("done", inputs);
+        alert("done: "+JSON.stringify(inputs));
         break;
     }
   };

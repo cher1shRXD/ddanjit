@@ -11,7 +11,7 @@ export const data = {
     data: [
       [
         { name: "title", props: { title: "3분 끝말잇기" } },
-        { name: "timer", props: { time: 180, autoStart: true, endAction: "done" } },
+        { name: "timer", props: { time: 5, autoStart: true, action: "done" } },
         { name: "infinite_word_input", props: { key: "words" } },
       ],
     ],

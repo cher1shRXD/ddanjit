@@ -9,37 +9,6 @@ interface Props {
   autoStart?: boolean;
 }
 
-const MINI_R = 13;
-const MINI_CIRC = 2 * Math.PI * MINI_R;
-
-const MiniArc = ({ progress }: { progress: number }) => (
-  <svg
-    width={32}
-    height={32}
-    style={{ transform: "rotate(-90deg)", flexShrink: 0 }}>
-    <circle
-      cx={16}
-      cy={16}
-      r={MINI_R}
-      fill="none"
-      stroke="rgba(255,255,255,0.15)"
-      strokeWidth={3}
-    />
-    <circle
-      cx={16}
-      cy={16}
-      r={MINI_R}
-      fill="none"
-      stroke="#A8D5C2"
-      strokeWidth={3}
-      strokeLinecap="round"
-      strokeDasharray={MINI_CIRC}
-      strokeDashoffset={MINI_CIRC * (1 - progress)}
-      style={{ transition: "stroke-dashoffset 1s linear" }}
-    />
-  </svg>
-);
-
 export const Timer = ({ totalSeconds, onEnd, autoStart = false }: Props) => {
   const [remaining, setRemaining] = useState(totalSeconds);
   const [running, setRunning] = useState(autoStart);
@@ -72,7 +41,7 @@ export const Timer = ({ totalSeconds, onEnd, autoStart = false }: Props) => {
           if (prev <= 1) {
             clearInterval(intervalRef.current!);
             setRunning(false);
-            onEnd?.();
+            setTimeout(() => onEnd?.(), 1000);
             return 0;
           }
           return prev - 1;
