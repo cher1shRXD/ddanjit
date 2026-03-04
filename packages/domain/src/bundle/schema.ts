@@ -18,6 +18,7 @@ export const bundleTable = mysqlTable("bundle", {
     .notNull()
     .default(new Date())
     .$onUpdate(() => new Date()),
+  isPublic: boolean("is_public").notNull().default(false)
 });
 
 export const bundleOwnershipTable = mysqlTable("bundle_ownership", {

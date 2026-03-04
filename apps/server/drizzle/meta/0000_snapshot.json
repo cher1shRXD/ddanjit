@@ -1,7 +1,7 @@
 {
   "version": "5",
   "dialect": "mysql",
-  "id": "b8453db0-9ddd-4ab0-a941-d27798d943d3",
+  "id": "397ba987-9fa0-4fa1-bb53-70c37b5bb4aa",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "activity": {
@@ -79,7 +79,7 @@
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
-          "default": "'2026-03-03 23:30:26.497'"
+          "default": "'2026-03-04 03:22:02.527'"
         },
         "updated_at": {
           "name": "updated_at",
@@ -87,7 +87,15 @@
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
-          "default": "'2026-03-03 23:30:26.497'"
+          "default": "'2026-03-04 03:22:02.527'"
+        },
+        "is_accepted": {
+          "name": "is_accepted",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": false
         }
       },
       "indexes": {
@@ -251,7 +259,7 @@
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
-          "default": "'2026-03-03 23:30:26.496'"
+          "default": "'2026-03-04 03:22:02.527'"
         }
       },
       "indexes": {},
@@ -332,7 +340,7 @@
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
-          "default": "'2026-03-03 23:30:26.496'"
+          "default": "'2026-03-04 03:22:02.527'"
         },
         "updated_at": {
           "name": "updated_at",
@@ -340,7 +348,15 @@
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
-          "default": "'2026-03-03 23:30:26.496'"
+          "default": "'2026-03-04 03:22:02.527'"
+        },
+        "is_public": {
+          "name": "is_public",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": false
         }
       },
       "indexes": {},
@@ -462,7 +478,7 @@
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
-          "default": "'2026-03-03 23:30:26.482'"
+          "default": "'2026-03-04 03:22:02.513'"
         },
         "provider": {
           "name": "provider",

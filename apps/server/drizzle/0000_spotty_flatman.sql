@@ -8,8 +8,9 @@ CREATE TABLE `activity` (
 	`content` json NOT NULL DEFAULT ('{}'),
 	`is_free` boolean NOT NULL DEFAULT false,
 	`recommend_at` int NOT NULL DEFAULT 0,
-	`created_at` datetime NOT NULL DEFAULT '2026-03-03 23:30:26.497',
-	`updated_at` datetime NOT NULL DEFAULT '2026-03-03 23:30:26.497',
+	`created_at` datetime NOT NULL DEFAULT '2026-03-04 03:22:02.527',
+	`updated_at` datetime NOT NULL DEFAULT '2026-03-04 03:22:02.527',
+	`is_accepted` boolean NOT NULL DEFAULT false,
 	CONSTRAINT `activity_id` PRIMARY KEY(`id`),
 	CONSTRAINT `activity_title_unique` UNIQUE(`title`)
 );
@@ -28,7 +29,7 @@ CREATE TABLE `bundle_ownership` (
 	`id` int AUTO_INCREMENT NOT NULL,
 	`user_id` int NOT NULL,
 	`bundle_id` int NOT NULL,
-	`acquired_at` datetime NOT NULL DEFAULT '2026-03-03 23:30:26.496',
+	`acquired_at` datetime NOT NULL DEFAULT '2026-03-04 03:22:02.527',
 	CONSTRAINT `bundle_ownership_id` PRIMARY KEY(`id`)
 );
 --> statement-breakpoint
@@ -37,8 +38,9 @@ CREATE TABLE `bundle` (
 	`name` varchar(255) NOT NULL,
 	`description` longtext NOT NULL,
 	`price` int NOT NULL DEFAULT 1900,
-	`created_at` datetime NOT NULL DEFAULT '2026-03-03 23:30:26.496',
-	`updated_at` datetime NOT NULL DEFAULT '2026-03-03 23:30:26.496',
+	`created_at` datetime NOT NULL DEFAULT '2026-03-04 03:22:02.527',
+	`updated_at` datetime NOT NULL DEFAULT '2026-03-04 03:22:02.527',
+	`is_public` boolean NOT NULL DEFAULT false,
 	CONSTRAINT `bundle_id` PRIMARY KEY(`id`),
 	CONSTRAINT `bundle_name_unique` UNIQUE(`name`)
 );
@@ -56,7 +58,7 @@ CREATE TABLE `user` (
 	`benefit` enum('none','founding','inviter','invitee') NOT NULL DEFAULT 'none',
 	`role` enum('admin','user','tester') NOT NULL DEFAULT 'user',
 	`acquisition_source` varchar(255),
-	`joined_at` datetime NOT NULL DEFAULT '2026-03-03 23:30:26.482',
+	`joined_at` datetime NOT NULL DEFAULT '2026-03-04 03:22:02.513',
 	`provider` enum('google','apple') NOT NULL DEFAULT 'google',
 	`oauth_id` varchar(255) NOT NULL,
 	`last_played_at` datetime,

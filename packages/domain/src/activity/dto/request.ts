@@ -5,6 +5,7 @@ import { durationEnum } from "../enums";
 
 export const SaveActivityReqSchema = createInsertSchema(activityTable).omit({
   id: true,
+  isAccepted: true,
   createdAt: true,
   updatedAt: true,
 });
