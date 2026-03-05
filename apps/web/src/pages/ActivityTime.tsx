@@ -18,10 +18,7 @@ const ActivityTime = () => {
     "activity-time-selected",
   );
   const tab = useTab();
-  const [showModal, setShowModal] = usePersistedState(
-    false,
-    "activity-time-show-modal",
-  );
+  const [showModal, setShowModal] = useState(false);
   const [isAgreed, setIsAgreed] = useState(false);
 
   const handleNext = () => {

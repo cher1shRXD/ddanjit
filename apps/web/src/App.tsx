@@ -11,19 +11,15 @@ import { TabProvider } from "./shared/providers/tab-provider";
 import RefindActivity from "./pages/RefindActivity";
 import ActivityRefound from "./pages/ActivityRefound";
 import ActivityList from "./pages/ActivityList";
-import { useEffect } from "react";
 import FindShortActivity from "./pages/FindShortActivity";
 import ShortActivityFound from "./pages/ShortActivityFound";
 import ActivityPlay from "./pages/ActivityPlay";
 import ActivitySave from "./pages/ActivitySave";
 import ActivityStart from "./pages/ActivityStart";
+import Report from "./pages/Report";
 
 const App = () => {
   const currentTab = storage.getItem("current-tab") || "onboarding";
-
-  useEffect(() => {
-    localStorage.clear();
-  }, []);
 
   return (
     <div className="w-full h-screen">
@@ -45,6 +41,7 @@ const App = () => {
           activity: <ActivityPlay />,
           "activity-save": <ActivitySave />,
           "activity-start": <ActivityStart />,
+          "report": <Report />
         }}
         initialKey={currentTab}
       />

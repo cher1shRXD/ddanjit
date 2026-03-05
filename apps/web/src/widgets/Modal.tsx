@@ -3,6 +3,7 @@ import Sliding from "../shared/ui/Sliding";
 import Ddani from "../shared/assets/icons/Ddani";
 import { useSafeArea } from "../shared/providers/safe-area-provider/useSafeArea";
 import { Icon } from "@iconify/react";
+import { Spacer } from "@ddanjit/ui";
 
 interface Props {
   enterButton: ReactNode;
@@ -38,9 +39,10 @@ const Modal = ({
       onAnimationComplete={() =>
         isCanceled ? closeModal() : requestParentClose(true)
       }
-      className="fixed bottom-0 right-0 z-10 flex flex-col w-full px-4 h-90 modal rounded-t-4xl"
+      className="fixed bottom-0 left-0 right-0 z-10 flex flex-col gap-6 px-4 modal rounded-t-4xl"
       style={{ paddingBottom: bottom }}>
-      <div className="flex justify-end w-full">
+      <Spacer height={300} />
+      <div className="flex justify-end w-full mb-10">
         <Icon
           icon="material-symbols:close"
           className="w-6 h-6 mt-4 text-text/40"

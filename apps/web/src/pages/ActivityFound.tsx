@@ -1,7 +1,5 @@
 import { useState } from "react";
 import Screen from "../shared/providers/safe-area-provider/Screen";
-import { useFindActivityQuery } from "../features/find-activity/queries";
-import { useTimeStore } from "../features/find-activity/stores/time";
 import { Button, Spacer } from "@ddanjit/ui";
 import Sliding from "../shared/ui/Sliding";
 import QuitButton from "../widgets/QuitButton";
@@ -9,13 +7,12 @@ import { useTab } from "../shared/providers/tab-provider/useTab";
 import { icons } from "../shared/constants/icons";
 import { useQueryClient } from "@tanstack/react-query";
 import { usePlay } from "../features/find-activity/hooks/usePlay";
+import { useActivityStore } from "../features/find-activity/stores/activity";
 
 const ActivityFound = () => {
   const [closeRequest, setCloseRequest] = useState(false);
   const [isAgreed, setIsAgreed] = useState(false);
-  const { time } = useTimeStore();
-  const { data } = useFindActivityQuery(time);
-  const activity = data?.data.data;
+  const { activity, setActivity } = useActivityStore();
   const tab = useTab();
   const queryClient = useQueryClient();
   const { play } = usePlay();
@@ -29,6 +26,7 @@ const ActivityFound = () => {
     setIsAgreed(false);
     setCloseRequest(true);
     setTimeout(() => {
+      setActivity(null);
       queryClient.invalidateQueries({ queryKey: ["find-activity"] });
     }, 3000);
   };

@@ -19,10 +19,10 @@ import fs from "fs";
 
 export const fastify = Fastify({
   logger: true,
-  // https: {
-  //   key: fs.readFileSync("/Users/cher1shRXD/cher1shrxds-macbookpro.tail1ddfe6.ts.net.key"),
-  //   cert: fs.readFileSync("/Users/cher1shRXD/cher1shrxds-macbookpro.tail1ddfe6.ts.net.crt"),
-  // }
+  https: {
+    key: fs.readFileSync("/Users/cher1shRXD/cher1shrxds-macbookpro.tail1ddfe6.ts.net.key"),
+    cert: fs.readFileSync("/Users/cher1shRXD/cher1shrxds-macbookpro.tail1ddfe6.ts.net.crt"),
+  }
 });
 
 fastify.setValidatorCompiler(validatorCompiler);

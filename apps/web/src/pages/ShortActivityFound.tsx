@@ -8,6 +8,7 @@ import { Button } from "../../../../packages/ui/src/Button";
 import QuitButton from "../widgets/QuitButton";
 import { icons } from "../shared/constants/icons";
 import { usePlay } from "../features/find-activity/hooks/usePlay";
+import { clearLocalStorage } from "../shared/utils/clear-local-storage";
 
 const ShortActivityFound = () => {
   const [closeRequest, setCloseRequest] = useState(false);
@@ -20,6 +21,11 @@ const ShortActivityFound = () => {
   const handleNext = () => {
     setIsAgreed(true);
     setCloseRequest(true);
+  };
+
+  const handleQuit = () => {
+    clearLocalStorage();
+    tab.move("report");
   };
 
   return (
@@ -67,9 +73,7 @@ const ShortActivityFound = () => {
         closeRequest={closeRequest}
         closeDelay={0.4}
         animationStyle="bouncy"
-        onAnimationComplete={() =>
-          isAgreed ? play(activity!) : tab.move("report")
-        }>
+        onAnimationComplete={() => (isAgreed ? play(activity!) : handleQuit())}>
         <Button
           background="primary"
           size="full"

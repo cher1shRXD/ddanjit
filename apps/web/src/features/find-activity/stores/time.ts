@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
 import { timeOptions } from "../constants/options";
 import type { Duration } from "@ddanjit/domain";
 
@@ -7,7 +8,12 @@ interface State {
   setTime: (time: Duration) => void;
 }
 
-export const useTimeStore = create<State>((set) => ({
-  time: timeOptions[0] as Duration,
-  setTime: (time) => set({ time }),
-}));
+export const useTimeStore = create<State>()(
+  persist(
+    (set) => ({
+      time: timeOptions[0] as Duration,
+      setTime: (time) => set({ time }),
+    }),
+    { name: "ddanjit-time" },
+  ),
+);

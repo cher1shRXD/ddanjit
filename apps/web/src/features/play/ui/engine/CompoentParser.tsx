@@ -32,7 +32,10 @@ const ComponentParser = ({ name, props, inputs, onChangeData, onAction }: Props)
     case "timer":
       return (
         <Timer
-          onEnd={() => onAction(props.action as string)}
+          onEnd={() => {
+            onChangeData(true);
+            onAction(props.action as string);
+          }}
           autoStart={props.autoStart as boolean}
           time={props.time as number}
         />

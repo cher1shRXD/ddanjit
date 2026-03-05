@@ -11,12 +11,13 @@ import Sliding from "../shared/ui/Sliding";
 import { useActivityStore } from "../features/find-activity/stores/activity";
 import { useResultStore } from "../features/play/stores/result";
 import { useTab } from "../shared/providers/tab-provider/useTab";
+import { usePersistedState } from "../shared/providers/snapshot-provider/usePersistedState";
 
 const ActivityPlay = () => {
   const { activity } = useActivityStore();
   const { setResult } = useResultStore();
-  const [inputs, setInputs] = useState<Record<string, InputValue>>({});
-  const [stepIndex, setStepIndex] = useState(0);
+  const [inputs, setInputs] = usePersistedState<Record<string, InputValue>>({}, "play-inputs");
+  const [stepIndex, setStepIndex] = usePersistedState(0, "play-step-index");
   const [isDone, setIsDone] = useState(false);
   const [closeRequest, setCloseRequest] = useState(false);
   const [requestedAction, setRequestedAction] = useState("done");

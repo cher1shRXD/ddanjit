@@ -1,6 +1,7 @@
 import type { Activity } from "@ddanjit/domain";
 import type { InputValue } from "../types";
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
 
 interface State {
   activity: Activity | null;
@@ -11,8 +12,13 @@ interface State {
   ) => void;
 }
 
-export const useResultStore = create<State>((set) => ({
-  activity: null,
-  inputs: null,
-  setResult: (activity, inputs) => set({ activity, inputs }),
-}));
+export const useResultStore = create<State>()(
+  persist(
+    (set) => ({
+      activity: null,
+      inputs: null,
+      setResult: (activity, inputs) => set({ activity, inputs }),
+    }),
+    { name: "ddanjit-result" },
+  ),
+);

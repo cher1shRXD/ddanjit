@@ -6,25 +6,27 @@ import Sliding from "../shared/ui/Sliding";
 import { useState } from "react";
 import ActivityItem from "../features/find-activity/ui/ActivityItem";
 import QuitButton from "../widgets/QuitButton";
-import { usePersistedState } from "../shared/providers/snapshot-provider/usePersistedState";
 import Modal from "../widgets/Modal";
 import { useTab } from "../shared/providers/tab-provider/useTab";
+import { clearLocalStorage } from "../shared/utils/clear-local-storage";
 
 const ActivityList = () => {
   const [closeRequest, setCloseRequest] = useState(false);
   const { time } = useTimeStore();
   const { data, isLoading } = useGetActivityListQuery(time);
   const activityList = data?.data.data || [];
-  const [showModal, setShowModal] = usePersistedState(
-    false,
-    "activity-list-show-modal",
-  );
+  const [showModal, setShowModal] = useState(false);
   const [isAgreed, setIsAgreed] = useState(false);
   const tab = useTab();
 
   const handleSelect = () => {
     setIsAgreed(true);
     setCloseRequest(true);
+  };
+
+  const handleQuit = () => {
+    clearLocalStorage();
+    tab.move("report");
   };
 
   return (
@@ -64,7 +66,7 @@ const ActivityList = () => {
             ? showModal
               ? tab.move("activity-find-short")
               : tab.move("activity-start")
-            : tab.move("report")
+            : handleQuit()
         }
         className="flex-1 w-full py-2 overflow-y-scroll rounded-lg bg-surface/60">
         {isLoading ? (

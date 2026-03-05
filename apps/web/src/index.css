@@ -45,6 +45,10 @@ body::before {
 }
 
 .modal {
-  background: rgba(255, 255, 255, 0.6);
-  backdrop-filter: blur(4px);
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 1) 70%,
+    var(--color-secondary) 100%
+  );
 }

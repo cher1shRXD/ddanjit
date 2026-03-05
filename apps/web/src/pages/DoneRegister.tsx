@@ -3,6 +3,7 @@ import { useTab } from "../shared/providers/tab-provider/useTab";
 import Fading from "../shared/ui/Fading";
 import Screen from "../shared/providers/safe-area-provider/Screen";
 import Sliding from "../shared/ui/Sliding";
+import { clearLocalStorage } from "../shared/utils/clear-local-storage";
 
 const DoneRegister = () => {
   const [closeRequest, setCloseRequest] = useState(false);
@@ -22,7 +23,10 @@ const DoneRegister = () => {
       closeRequest={closeRequest}
       duration={0.5}
       closeDelay={1}
-      onAnimationComplete={() => tab.move("activity-time")}>
+      onAnimationComplete={() => {
+        clearLocalStorage();
+        tab.move("activity-time");
+      }}>
       <Screen className="flex flex-col items-center justify-center gap-5 bg-primary">
         <Sliding
           direction="left-right"

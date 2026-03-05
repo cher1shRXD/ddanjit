@@ -12,7 +12,7 @@ const FindShortActivity = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsMinTimePassed(true);
-    }, 3000);
+    }, 1500);
 
     return () => clearTimeout(timer);
   }, []);
