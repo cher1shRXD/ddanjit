@@ -18,7 +18,7 @@ import {
 } from "@ddanjit/bridge-interface";
 import { BridgeContext } from "./bridge-context";
 import { execute } from "./execute";
-import { bridgeManager } from "../bridge-manager";
+import { bridgeManager } from "../models/bridge-manager";
 
 export const BridgeProvider = ({ children }: PropsWithChildren) => {
   const queueRef = useRef<Record<string, PendingRequest>>({});
